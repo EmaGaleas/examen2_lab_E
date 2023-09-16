@@ -1351,7 +1351,6 @@ public class tablero extends javax.swing.JFrame {
         //JUGADOR 3
 
         if (lt.txtTurnoSting().equals(nombre_J2.getText())) {//VERIFICA QUE SEA SU TURNO, ES DECIR SI EL NOMBRE DE TURNO ES IGUAL AL NOMBRE DEL PANEL QUE ESTA EN ESTE BOTON
-            lt.elegida = "CORAZON1";//la puse aqui pq no se la logica de cual elige, aqui vas a asiganr elvalor de cuando eliga una carta
             if (contjg3 == 0) {
                 darcart = 0;
                 contjg3++;
@@ -1463,7 +1462,6 @@ public class tablero extends javax.swing.JFrame {
         //if(objjg1.||objjg3.equals(true)||objjg4.equals(true)||objjg5.equals(true)||objjg6.equals(true)||objjg7.equals(true)||objjg8.equals(true)){
 
         if (lt.txtTurnoSting().equals(nombre_J8.getText())) {
-            lt.elegida = "DIAMANTE1";
             if (contjg2 == 0) {
                 darcart = 0;
                 contjg2++;
@@ -1577,7 +1575,6 @@ public class tablero extends javax.swing.JFrame {
         //JUGADOR 1
 
         if (lt.txtTurnoSting().equals(nombre_J1.getText())) {
-            lt.elegida = "PICA1";
             try {
                 if (contjg1 == 0) {
                     darcart = 0;
@@ -1686,7 +1683,6 @@ public class tablero extends javax.swing.JFrame {
         // JUGADOR 4
 
         if (lt.txtTurnoSting().equals(nombre_J7.getText())) {
-            lt.elegida = "TREBOL1";
             try {
                 if (contjg4 == 0) {
                     darcart = 0;
@@ -1760,7 +1756,6 @@ public class tablero extends javax.swing.JFrame {
         // JUGADOR 5
 
         if (lt.txtTurnoSting().equals(nombre_J3.getText())) {
-            lt.elegida = "PICA1";
             try {
                 if (contjg5 == 0) {
                     darcart = 0;
@@ -1815,7 +1810,6 @@ public class tablero extends javax.swing.JFrame {
         // JUGADOR 6
 
         if (lt.txtTurnoSting().equals(nombre_J6.getText())) {
-            lt.elegida = "DIAMANTE1";
             try {
                 if (contjg6 == 0) {
                     darcart = 0;
@@ -1871,7 +1865,6 @@ public class tablero extends javax.swing.JFrame {
         // JUGADOR 7
 
         if (lt.txtTurnoSting().equals(nombre_J5.getText())) {
-            lt.elegida = "TREBOL1";
             try {
                 if (contjg7 == 0) {
                     darcart = 0;
@@ -1909,7 +1902,6 @@ public class tablero extends javax.swing.JFrame {
         // JUGADOR 8
 
         if (lt.txtTurnoSting().equals(nombre_J4.getText())) {
-            lt.elegida = "CORAZON1";
             try {
                 if (contjg8 == 0) {
                     darcart = 0;
