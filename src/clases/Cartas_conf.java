@@ -41,7 +41,7 @@ public class Cartas_conf {
 
     @Override
     public String toString() {
-        return tipo+"-"+valor;
+        return tipo+valor;
     }
 
   
