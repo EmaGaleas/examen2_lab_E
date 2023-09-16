@@ -38,7 +38,7 @@ public class tablero extends javax.swing.JFrame {
     private int segundos = 0, contador = 0;
     Dimension CoordjSelect = null;
     String[] botonescarta;
-    boolean ordenarcartas = false, nuevoorden = false;
+    boolean ordenarcartas = false, nuevoorden = false, reinicio=false;
     String cartamover = "";
     int posicionusada = 0;
 
@@ -172,6 +172,7 @@ public class tablero extends javax.swing.JFrame {
 
     private void ordenarcartas(int numcarts, String infocartas) {
         botonescarta = new String[numcarts + 1];
+        
         int[] posicionesusadas = new int[numcarts + 1];
         for (int i = 0; i < posicionesusadas.length; i++) {
             posicionesusadas[i] = 0;
@@ -192,13 +193,16 @@ public class tablero extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 for (int i = 0; i < cartasunidas.length && i < numcarts + 1; i++) {
                     botonescarta[i] = "0";
-
+                    
                 }
                 for (int i = 0; i < posicionesusadas.length; i++) {
                     posicionesusadas[i] = 0;
                 }
+                
+                reinicio=true;
                 JOptionPane.showMessageDialog(null, "Reiniciando orden otra vez");
                 cartamover = "";
+                
                 posicionusada = 0;
             }
 
@@ -245,6 +249,7 @@ public class tablero extends javax.swing.JFrame {
             boton2.setSize(new Dimension(45, 55));
             boton2.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    
                     int cont = 1;
                     for (int j = 1; j < botonescarta.length; j++) {
                         //aqui verifico que el nuevo array este lleno por completo
@@ -288,6 +293,8 @@ public class tablero extends javax.swing.JFrame {
                             posicionesusadas[cartaIndex] = posicionusada;
                             posicionusada = 0;
                             JOptionPane.showMessageDialog(null, "Nueva posición: " + cartamover);
+                            String cartaSinGuion = cartamover.replace("-", "");
+                            boton2.setIcon(call_png_baraja.obtenerFicha(cartaSinGuion));
                             cartamover = "";
                             panel.revalidate();
                             panel.repaint();
@@ -307,11 +314,9 @@ public class tablero extends javax.swing.JFrame {
             String carat = botonescarta[cartaIndex];
             System.out.println("cartamover: " + cartamover);
             // Actualiza el ícono del botón con la nueva carta
-            String cartaSinGuion = carat.replace("-", "");
-            boton2.setIcon(call_png_baraja.obtenerFicha(cartaSinGuion));
+           
 
             // Añade el botón al panel
-            boton2.setIcon(call_png_baraja.obtenerFicha(cartaSinGuion));
             boton2.setPreferredSize(new Dimension(40, 65));
             boton2.revalidate();
             boton2.repaint();
