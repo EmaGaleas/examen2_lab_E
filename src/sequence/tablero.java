@@ -151,6 +151,7 @@ public class tablero extends javax.swing.JFrame {
 
                     // Mostrar la información de la carta en un cuadro de diálogo
                     infoCartaDialog.showMessageDialog(null, cartaSeleccionada, "Información de la Carta", JOptionPane.INFORMATION_MESSAGE);
+                lt.elegida=cartaSeleccionada;
                 }
 
             });
