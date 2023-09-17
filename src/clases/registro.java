@@ -372,7 +372,7 @@ public class registro {
                 raf.seek(raf.length());
                 raf.writeLong(Calendar.getInstance().getTimeInMillis());
                 raf.writeUTF(sms);
-                JOptionPane.showMessageDialog(null, "REPORTE AGREGADO");
+               // JOptionPane.showMessageDialog(null, "REPORTE AGREGADO");
             } finally {
                 raf.close();
             }

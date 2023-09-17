@@ -57,15 +57,17 @@ public class tablero extends javax.swing.JFrame {
         inicializarJugadores();
         ImageIcon icon = new ImageIcon("src/images/mazo.png");
         sacarCarta.setIcon(icon);
-
+        lt.elegida="a";
         lt.buscarModo(registro.getLogin());
         segundos = 0;
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                lt.elegida="a";
                 segundos++;
                 actLabelTIME();
                 if (segundos >= 120) {
+                    lt.elegida="a";
                     timer.stop();
                     finTIME();
                 }
@@ -82,6 +84,7 @@ public class tablero extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (lt.seRealizoAccion()) {
                     paro();
+                    lt.elegida="a";
                     tij.stop();
                     tij.start();
                     nuevoorden = false;
@@ -457,7 +460,7 @@ public class tablero extends javax.swing.JFrame {
 
     }
 
-    private void inicializarJugadores() {
+     private void inicializarJugadores() {
         String[] id = nombre.split("\n");
         String nombre1 = "";
         String equipo1 = "";
@@ -538,24 +541,24 @@ public class tablero extends javax.swing.JFrame {
                     nombre_J1.setText(nombre1);
                     equipo_J1.setText(equipo1);
                     lt.t1 = nombre1;
-                    lt.miembros1 += ", " + nombre1;
+                    lt.miembros1 +=  nombre1+"-";
                     turno.setText("Turno de: " + nombre1);
                 } else if (equipo1.equals("TURNO 2")) {
                     nombre_J8.setText(nombre1);
                     equipo_J8.setText(equipo1);
                     lt.t2 = nombre1;
-                    lt.miembros2 += ", " + nombre1;
+                    lt.miembros2 += nombre1+"-";
                 }
                 if (equipo2.equals("TURNO 2")) {
                     nombre_J8.setText(nombre2);
                     equipo_J8.setText(equipo2);
                     lt.t2 = nombre2;
-                    lt.miembros2 += ", " + nombre2;
+                    lt.miembros2 +=  nombre2+"-";
                 } else if (equipo2.equals("TURNO 1")) {
                     nombre_J1.setText(nombre2);
                     equipo_J1.setText(equipo2);
                     lt.t1 = nombre2;
-                    lt.miembros1 += ", " + nombre2;
+                    lt.miembros1 +=nombre2+"-";
                     turno.setText("Turno de: " + nombre2);
                 }
                 btn_verJ8.setIcon(call_png_baraja.imagenTrasera());
@@ -571,52 +574,52 @@ public class tablero extends javax.swing.JFrame {
                     nombre_J1.setText(nombre1);
                     equipo_J1.setText(equipo1);
                     lt.t1 = nombre1;
-                    lt.miembros1 += ", " + nombre1;
+                    lt.miembros1 += nombre1+"-";
                     turno.setText("Turno de: " + nombre1);
                 } else if (equipo1.equals("TURNO 2")) {
                     nombre_J2.setText(nombre1);
                     equipo_J2.setText(equipo1);
                     lt.t2 = nombre1;
-                    lt.miembros2 += ", " + nombre1;
+                    lt.miembros2 += nombre1+"-";
                 } else if (equipo1.equals("TURNO 3")) {
                     nombre_J8.setText(nombre1);
                     equipo_J8.setText(equipo1);
-                    lt.miembros3 += ", " + nombre1;
+                    lt.miembros3 += nombre1+"-";
                     lt.t3 = nombre1;
                 }
                 if (equipo2.equals("TURNO 1")) {
                     nombre_J1.setText(nombre2);
                     equipo_J1.setText(equipo2);
                     lt.t1 = nombre2;
-                    lt.miembros1 += ", " + nombre2;
+                    lt.miembros1 +=  nombre2+"-";
                     turno.setText("Turno de: " + nombre2);
                 } else if (equipo2.equals("TURNO 2")) {
                     nombre_J2.setText(nombre2);
                     equipo_J2.setText(equipo2);
                     lt.t2 = nombre2;
-                    lt.miembros2 += ", " + nombre2;
+                    lt.miembros2 += nombre2+"-";
                 } else if (equipo2.equals("TURNO 3")) {
                     nombre_J8.setText(nombre2);
                     equipo_J8.setText(equipo2);
                     lt.t3 = nombre2;
-                    lt.miembros3 += ", " + nombre2;
+                    lt.miembros3 += nombre2+"-";
                 }
                 if (equipo3.equals("TURNO 1")) {
                     nombre_J1.setText(nombre3);
                     equipo_J1.setText(equipo3);
                     lt.t1 = nombre3;
-                    lt.miembros1 += ", " + nombre3;
+                    lt.miembros1 +=  nombre3+"-";
                     turno.setText("Turno de: " + lt.t1);
                 } else if (equipo3.equals("TURNO 2")) {
                     nombre_J2.setText(nombre3);
                     equipo_J2.setText(equipo3);
                     lt.t2 = nombre3;
-                    lt.miembros2 += ", " + nombre3;
+                    lt.miembros2 +=  nombre3+"-";
                 } else if (equipo3.equals("TURNO 3")) {
                     nombre_J8.setText(nombre3);
                     equipo_J8.setText(equipo3);
                     lt.t3 = nombre3;
-                    lt.miembros3 += ", " + nombre3;
+                    lt.miembros3 += nombre3+"-";
                 }
 
                 btn_verJ1.setIcon(call_png_baraja.imagenTrasera());
@@ -631,20 +634,20 @@ public class tablero extends javax.swing.JFrame {
                 nombre_J1.setText(nombre1);
                 equipo_J1.setText(equipo1);
                 lt.t1 = nombre1;
-                lt.miembros1 += ", " + nombre1;
+                lt.miembros1 += nombre1+"-";
                 turno.setText("Turno de: " + nombre1);
                 nombre_J2.setText(nombre2);
                 equipo_J2.setText(equipo2);
                 lt.t2 = nombre2;
-                lt.miembros2 += ", " + nombre2;
+                lt.miembros2 +=  nombre2+"-";
                 nombre_J7.setText(nombre3);
                 equipo_J7.setText(equipo3);
                 lt.t3 = nombre3;
-                lt.miembros1 += ", " + nombre3;
+                lt.miembros1 += nombre3+"-";
                 nombre_J8.setText(nombre4);
                 equipo_J8.setText(equipo4);
                 lt.t4 = nombre4;
-                lt.miembros2 += ", " + nombre4;
+                lt.miembros2 +=  nombre4+"-";
 
                 btn_verJ1.setIcon(call_png_baraja.imagenTrasera());
                 btn_verJ2.setIcon(call_png_baraja.imagenTrasera());
@@ -658,28 +661,28 @@ public class tablero extends javax.swing.JFrame {
                 nombre_J1.setText(nombre1);
                 equipo_J1.setText(equipo1);
                 lt.t1 = nombre1;
-                lt.miembros1 += ", " + nombre1;
+                lt.miembros1 += nombre1+"-";
                 turno.setText("Turno de: " + nombre1);
                 nombre_J2.setText(nombre2);
                 equipo_J2.setText(equipo2);
                 lt.t2 = nombre2;
-                lt.miembros2 += ", " + nombre2;
+                lt.miembros2 +=  nombre2+"-";
                 nombre_J3.setText(nombre3);
                 equipo_J3.setText(equipo3);
                 lt.t3 = nombre3;
-                lt.miembros3 += ", " + nombre3;
+                lt.miembros3 += nombre3+"-";
                 nombre_J6.setText(nombre4);
                 equipo_J6.setText(equipo4);
                 lt.t4 = nombre4;
-                lt.miembros1 += ", " + nombre4;
+                lt.miembros1 +=  nombre4+"-";
                 nombre_J7.setText(nombre5);
                 equipo_J7.setText(equipo5);
                 lt.t5 = nombre5;
-                lt.miembros2 += ", " + nombre5;
+                lt.miembros2 += nombre5+"-";
                 nombre_J8.setText(nombre6);
                 equipo_J8.setText(equipo6);
                 lt.t6 = nombre6;
-                lt.miembros3 += ", " + nombre6;
+                lt.miembros3 += nombre6+"-";
 
                 btn_verJ8.setIcon(call_png_baraja.imagenTrasera());
                 btn_verJ7.setIcon(call_png_baraja.imagenTrasera());
@@ -693,36 +696,36 @@ public class tablero extends javax.swing.JFrame {
                 nombre_J1.setText(nombre1);
                 equipo_J1.setText(equipo1);
                 lt.t1 = nombre1;
-                lt.miembros1 += ", " + nombre1;
+                lt.miembros1 +=  nombre1+"-";
                 turno.setText("Turno de: " + nombre1);
                 nombre_J2.setText(nombre2);
                 equipo_J2.setText(equipo2);
                 lt.t2 = nombre2;
-                lt.miembros2 += ", " + nombre2;
+                lt.miembros2 +=  nombre2+"-";
                 nombre_J3.setText(nombre3);
                 equipo_J3.setText(equipo3);
                 lt.t3 = nombre3;
-                lt.miembros1 += ", " + nombre3;
+                lt.miembros1 +=nombre3+"-";
                 nombre_J4.setText(nombre4);
                 equipo_J4.setText(equipo4);
                 lt.t4 = nombre4;
-                lt.miembros2 += ", " + nombre4;
+                lt.miembros2 += nombre4+"-";
                 nombre_J5.setText(nombre5);
                 equipo_J5.setText(equipo5);
-                lt.miembros1 += ", " + nombre5;
+                lt.miembros1 += nombre5+"-";
                 lt.t5 = nombre5;
                 nombre_J6.setText(nombre6);
                 equipo_J6.setText(equipo6);
                 lt.t6 = nombre6;
-                lt.miembros2 += ", " + nombre6;
+                lt.miembros2 +=  nombre6+"-";
                 nombre_J7.setText(nombre7);
                 equipo_J7.setText(equipo7);
                 lt.t7 = nombre7;
-                lt.miembros1 += ", " + nombre7;
+                lt.miembros1 +=  nombre7+"-";
                 nombre_J8.setText(nombre8);
                 equipo_J8.setText(equipo8);
                 lt.t8 = nombre8;
-                lt.miembros2 += ", " + nombre8;
+                lt.miembros2 +=  nombre8+"-";
 
                 btn_verJ8.setIcon(call_png_baraja.imagenTrasera());
                 btn_verJ7.setIcon(call_png_baraja.imagenTrasera());
@@ -738,6 +741,7 @@ public class tablero extends javax.swing.JFrame {
             System.err.println("error");
         }
     }
+
 
     private void fondoTablero() {
         ImageIcon ig = new ImageIcon("src/images/fondos/fondo_tablero.png");
