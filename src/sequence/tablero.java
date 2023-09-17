@@ -16,6 +16,9 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -31,6 +34,7 @@ public class tablero extends javax.swing.JFrame {
     confi conf = new confi();
     registro obrg = new registro();
     Repartircartas_tab repart = new Repartircartas_tab();
+    int entro = 1;
     String nombre, cartjg1, cartjg2, cartjg3, cartjg4, cartg5, cartg6, cartg7, cartg8;
     int darcart = 0, contjg1 = 0, contjg2 = 0, contjg3 = 0, contjg4 = 0, contjg5 = 0, contjg6 = 0, contjg7 = 0, contjg8 = 0;
     public Timer timer;
@@ -38,14 +42,16 @@ public class tablero extends javax.swing.JFrame {
     private int segundos = 0, contador = 0;
     Dimension CoordjSelect = null;
     String[] botonescarta;
-    boolean ordenarcartas = false, nuevoorden = false, reinicio=false;
-    String cartamover = "";
+    boolean ordenarcartas = false, nuevoorden = false, reinicio = false, descartarcarta = false, yadescarto = false;
+    String cartamover = "", cartadescartar = "";
     int posicionusada = 0;
+    int cont = 0, entroya = 0;
+    private List<String> ordenActualCartas;
 
     public tablero(String nombre) {
         initComponents();
         fondoTablero();
-
+        ordenActualCartas = new ArrayList<>();
         lt.GridLayout(tab);
         this.nombre = nombre;
         inicializarJugadores();
@@ -78,6 +84,9 @@ public class tablero extends javax.swing.JFrame {
                     paro();
                     tij.stop();
                     tij.start();
+                    nuevoorden = false;
+                    ordenActualCartas.clear();
+
                 }
             }
         });
@@ -114,25 +123,40 @@ public class tablero extends javax.swing.JFrame {
         lt.cambiorturno();
         String turnoString = lt.txtTurnoSting();
         turno.setText("Turno de: " + turnoString);
+
     }
 
     private void mostrarCuadroDialogoConImagenes(int numcarts, String infocartas) {
+
         JPanel panel = new JPanel();
-        System.out.println("infocartas" + infocartas);
         String[] cartasunidas = infocartas.split("\n");
+        // cartasunidas = ordenActualCartas.toArray(new String[0]);
+
+        System.out.println("NORMALordenActualCartas" + ordenActualCartas);
         String[] cartas = new String[numcarts + 1];
+        //aqui va a verificar que no haya ningun valor en blanco porque si hay que se mantega el valor anterior 
+        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+            String[] ordenActu = ordenActualCartas.toArray(new String[numcarts + 1]);
+            for (int i = 1; i < cartasunidas.length; i++) {
+
+                cartasunidas[i] = ordenActu[i];
+                System.out.print("ordenActu[i]= " + ordenActu[i]);
+            }
+
+        }
         for (int i = 0; i < cartasunidas.length; i++) {
             if (i < cartasunidas.length && !cartasunidas[i].equals("")) {
                 cartas[i] = cartasunidas[i];
+            }
+        }
+
+        if (nuevoorden == true) {
+            for (int i = 1; i < cartasunidas.length; i++) {
+                cartas[i] = botonescarta[i];
 
             }
         }
-        if(nuevoorden==true){
-           for (int i = 1; i < cartasunidas.length; i++) {
-               nuevoorden=false;
-               cartas[i] = botonescarta[i];
-        }     
-        }
+
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS)); // Establece el layout vertical
         panel.add(Box.createRigidArea(new Dimension(15, 0)));
 
@@ -150,8 +174,8 @@ public class tablero extends javax.swing.JFrame {
                     String cartaSeleccionada = (cartaIndex < cartas.length) ? cartas[cartaIndex + 1] : "No hay información disponible";
 
                     // Mostrar la información de la carta en un cuadro de diálogo
-                    infoCartaDialog.showMessageDialog(null, cartaSeleccionada, "Información de la Carta", JOptionPane.INFORMATION_MESSAGE);
-                lt.elegida=cartaSeleccionada;
+                    //infoCartaDialog.showMessageDialog(null, cartaSeleccionada, "Información de la Carta", JOptionPane.INFORMATION_MESSAGE);
+                    lt.elegida = cartaSeleccionada;
                 }
 
             });
@@ -172,8 +196,8 @@ public class tablero extends javax.swing.JFrame {
     }
 
     private void ordenarcartas(int numcarts, String infocartas) {
+        nuevoorden = false;
         botonescarta = new String[numcarts + 1];
-        
         int[] posicionesusadas = new int[numcarts + 1];
         for (int i = 0; i < posicionesusadas.length; i++) {
             posicionesusadas[i] = 0;
@@ -182,6 +206,16 @@ public class tablero extends javax.swing.JFrame {
         System.out.println("infocartas" + infocartas);
         String[] cartasunidas = infocartas.split("\n");
         String[] cartas = new String[numcarts + 1];
+
+        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+            String[] ordenActu = ordenActualCartas.toArray(new String[numcarts + 1]);
+            for (int i = 1; i < cartasunidas.length; i++) {
+
+                cartasunidas[i] = ordenActu[i];
+                System.out.print("ordenActu[i]= " + ordenActu[i]);
+            }
+
+        }
         for (int i = 0; i < cartasunidas.length && i < numcarts + 1; i++) {
             if (!cartasunidas[i].equals("")) {
                 cartas[i] = cartasunidas[i];
@@ -189,28 +223,30 @@ public class tablero extends javax.swing.JFrame {
                 System.out.println(" botonescarta[i]" + botonescarta[i]);
             }
         }
+
+        System.out.println("ORDENARordenActualCartas" + ordenActualCartas);
         JButton reiniciarorden = new JButton("Reordenar");
         reiniciarorden.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 for (int i = 0; i < cartasunidas.length && i < numcarts + 1; i++) {
                     botonescarta[i] = "0";
-                    
+
                 }
                 for (int i = 0; i < posicionesusadas.length; i++) {
                     posicionesusadas[i] = 0;
                 }
-                
-                reinicio=true;
+
+                reinicio = true;
                 JOptionPane.showMessageDialog(null, "Reiniciando orden otra vez");
                 cartamover = "";
-                
+
                 posicionusada = 0;
             }
 
         });
         panel.add(reiniciarorden);
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        panel.add(Box.createRigidArea(new Dimension(15, 0)));
+        panel.add(Box.createRigidArea(new Dimension(20, 0)));
 
         JOptionPane infoCartaDialog = new JOptionPane();
 
@@ -218,22 +254,18 @@ public class tablero extends javax.swing.JFrame {
             int cartaIndex = i; // Almacena el índice de la carta para acceder a ella en el ActionListener
             JButton boton = new JButton();
             boton.setSize(new Dimension(45, 55));
-
             Dimension Dimentemp = new Dimension(i, 0);
-
             boton.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     //Obtine la información de la carta correspondiente
                     String cartaSeleccionada = (cartaIndex < cartas.length) ? cartas[cartaIndex + 1] : "No hay información disponible";
                     System.out.println("cartas.lenght " + cartas.length);
                     // Mostrar la información de la carta en un cuadro de diálogo
-                    infoCartaDialog.showMessageDialog(null, cartaSeleccionada, "Información de la Carta", JOptionPane.INFORMATION_MESSAGE);
+                    //infoCartaDialog.showMessageDialog(null, cartaSeleccionada, "Información de la Carta", JOptionPane.INFORMATION_MESSAGE);
                     cartamover = cartaSeleccionada;
                     posicionusada = cartaIndex + 1;
-
                 }
             });
-
             String carat = (cartaIndex < cartas.length) ? cartas[cartaIndex + 1] : "No hay información disponible";
             String cartaSinGuion = carat.replace("-", "");
             boton.setIcon(call_png_baraja.obtenerFicha(cartaSinGuion));
@@ -242,31 +274,12 @@ public class tablero extends javax.swing.JFrame {
 //            System.out.println("botonescarta:" + botonescarta[0][i]);
         }
         panel.add(Box.createRigidArea(new Dimension(15, 10)));
-
         for (int i = 1; i < numcarts + 1; i++) {
             int cartaIndex = i;
-
             JButton boton2 = new JButton();
             boton2.setSize(new Dimension(45, 55));
             boton2.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    
-                    int cont = 1;
-                    for (int j = 1; j < botonescarta.length; j++) {
-                        //aqui verifico que el nuevo array este lleno por completo
-                        if (!botonescarta[j].equals("0")) {
-                            cont++;
-                            System.out.println("contador ordenado " + cont);
-                            if (cont == numcarts) {
-                                nuevoorden = true;
-                                System.out.println("nuevoorden" + nuevoorden);
-                                cont=1;
-                                JOptionPane.showMessageDialog(null, "Ya ha reeordenado todas sus cartas");
-                            }
-
-                        }
-
-                    }
                     //JOptionPane.showMessageDialog(null, "botonescarta[cartaIndex]" + cartaIndex);
                     //aqui guardo la posicion de la carta que selccione para que no ordene dos cartas repetidas
                     for (int j = 0; j < posicionesusadas.length; j++) {
@@ -276,15 +289,13 @@ public class tablero extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(null, "Seleccione otra carta que no haya seleccionado antes");
                             return;
                         }
-
                     }
-
                     // Obtén la información de la carta correspondiente
                     if ((!cartamover.equals(""))) {
                         //aqui guardo la posicion de la carta que selccione para que no ordene dos cartas repetidas
                         // Mostrar la información de la carta en un cuadro de diálogo
                         String cartaSeleccionada = (cartaIndex < botonescarta.length) ? botonescarta[cartaIndex] : "No hay información disponible";
-                        infoCartaDialog.showMessageDialog(null, botonescarta[cartaIndex], "Información de la Carta", JOptionPane.INFORMATION_MESSAGE);
+                        //infoCartaDialog.showMessageDialog(null, botonescarta[cartaIndex], "Información de la Carta", JOptionPane.INFORMATION_MESSAGE);
 
                         if (!botonescarta[cartaIndex].equals("0")) {
                             JOptionPane.showMessageDialog(null, "Ya hay una carta en esa posición");
@@ -293,10 +304,21 @@ public class tablero extends javax.swing.JFrame {
                             botonescarta[cartaIndex] = cartamover;
                             posicionesusadas[cartaIndex] = posicionusada;
                             posicionusada = 0;
-                            JOptionPane.showMessageDialog(null, "Nueva posición: " + cartamover);
+                            cont++;
+                            System.out.print("cont " + cont);
                             String cartaSinGuion = cartamover.replace("-", "");
                             boton2.setIcon(call_png_baraja.obtenerFicha(cartaSinGuion));
                             cartamover = "";
+                            ordenActualCartas = new ArrayList<>(Arrays.asList(botonescarta));
+                            System.out.println("ORDENARordenActualCartas" + ordenActualCartas);
+                            if (!ordenActualCartas.contains("0")) {
+                                nuevoorden = true;
+                                System.out.println("nuevoorden" + nuevoorden);
+                                cont = 0;
+                                JOptionPane.showMessageDialog(null, "Ya ha reeordenado todas sus cartas");
+                                return;
+                            }
+
                             panel.revalidate();
                             panel.repaint();
                         }
@@ -304,7 +326,7 @@ public class tablero extends javax.swing.JFrame {
                     } else {
                         //este if es si el arreglo tiene un valor lo muestre en patalla y si no tiene nada que seleccione una carta 
                         if (!botonescarta[cartaIndex].equals("0")) {
-                            JOptionPane.showMessageDialog(null, "Nuevo valor:" + botonescarta[cartaIndex]);
+                            //JOptionPane.showMessageDialog(null, "Nuevo valor:" + botonescarta[cartaIndex]);
                             return;
                         }
                         JOptionPane.showMessageDialog(null, "Seleccione una carta primero");
@@ -315,7 +337,6 @@ public class tablero extends javax.swing.JFrame {
             String carat = botonescarta[cartaIndex];
             System.out.println("cartamover: " + cartamover);
             // Actualiza el ícono del botón con la nueva carta
-           
 
             // Añade el botón al panel
             boton2.setPreferredSize(new Dimension(40, 65));
@@ -326,52 +347,116 @@ public class tablero extends javax.swing.JFrame {
         }
 
         CustomDialog dialog = new CustomDialog(this, panel, "PRUEBITA");
-        dialog.setMinimumSize(new Dimension(1000, 500));
-        dialog.setMaximumSize(new Dimension(1000, 500));
+        dialog.setMinimumSize(new Dimension(1100, 500));
+        dialog.setMaximumSize(new Dimension(1100, 500));
+        panel.setOpaque(false);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
+    }
+    int indiceAEliminar = 0;
+
+    private void descartarcartas(int numcarts, String infocartas) {
+
+        JPanel panel = new JPanel();
+        String[] cartasunidas = infocartas.split("\n");
+        // cartasunidas = ordenActualCartas.toArray(new String[0]);
+        // System.out.print("DESCARTARLordenActualCartas" + ordenActualCartas);
+        String[] cartas = new String[numcarts + 1];
+        //aqui va a verificar que no haya ningun valor en blanco porque si hay que se mantega el valor anterior 
+        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+            String[] ordenActu = ordenActualCartas.toArray(new String[numcarts + 1]);
+            for (int i = 1; i < cartasunidas.length; i++) {
+
+                cartasunidas[i] = ordenActu[i];
+                System.out.print("ordenActu[i]= " + ordenActu[i]);
+            }
+
+        }
+        for (int i = 0; i < cartasunidas.length; i++) {
+            if (i < cartasunidas.length && !cartasunidas[i].equals("")) {
+                cartas[i] = cartasunidas[i];
+            }
+        }
+
+        if (nuevoorden == true) {
+            for (int i = 1; i < cartasunidas.length; i++) {
+                cartas[i] = botonescarta[i];
+
+            }
+        }
+
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS)); // Establece el layout vertical
+        panel.add(Box.createRigidArea(new Dimension(15, 0)));
+
+        //  cuadro de diálogo para mostrar la información de la carta
+        JOptionPane infoCartaDialog = new JOptionPane();
+
+        for (int i = 0; i < numcarts; i++) {
+            int cartaIndex = i; // Almacena el índice de la carta para acceder a ella en el ActionListener
+            JButton boton = new JButton();
+            boton.setSize(new Dimension(45, 55));
+            //Dimension Dimentemp = new Dimension(i, 1);
+            boton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    // Obtine la información de la carta correspondiente
+                    if (yadescarto == true) {
+                        JOptionPane.showMessageDialog(null, "Solo se puede descartar una carta por turno");
+                        return;
+                    }
+                    String cartaSeleccionada = (cartaIndex < cartas.length) ? cartas[cartaIndex + 1] : "No hay información disponible";
+                    cartadescartar = cartaSeleccionada;
+                    JOptionPane.showMessageDialog(null, "carta descartar:" + cartaSeleccionada);
+//                    for (int i = 1; i < cartas.length; i++) {
+//                        
+//                        System.out.print("sinremplazar: "+cartas[i]);
+//                    }
+                    for (int i = 1; i < cartas.length; i++) {
+                        if (cartas[i].contains(cartadescartar)) {
+                            indiceAEliminar = i;
+                            break; // Detengo el bucle cuando encuentro la carta
+                        }
+                    }
+
+                    // Verifica si se encontró el valor a eliminar
+                    if (indiceAEliminar != -1) {
+                        // Reemplaza el valor en el mismo índice con el nuevo valor
+
+                        cartas[indiceAEliminar] = repart.siguienteCarta().getTipo() + repart.siguienteCarta().getValor();
+                        System.out.println("nueva carta" + cartas[indiceAEliminar]);
+                        boton.setIcon(call_png_baraja.obtenerFicha(cartas[indiceAEliminar]));
+                        indiceAEliminar = 0;
+                        yadescarto = true;
+                        JOptionPane.showMessageDialog(null, "Carta descartada");
+                        ordenActualCartas = new ArrayList<>(Arrays.asList(cartas));
+
+                    } else {
+                        System.out.println("El valor a eliminar no se encuentra en el array.");
+                    }
+
+//                    for (int i = 1; i < cartas.length; i++) {
+//
+//                        System.out.print("remplazado: " + cartas[i]);
+//                    }
+                }
+
+            });
+            String carat = (cartaIndex < cartas.length) ? cartas[cartaIndex + 1] : "No hay información disponible";
+            String cartaSinGuion = carat.replace("-", "");
+            boton.setIcon(call_png_baraja.obtenerFicha(cartaSinGuion));
+            panel.add(boton);
+
+        }
+
+        CustomDialog dialog = new CustomDialog(this, panel, "PRUEBITA");
+        dialog.setMinimumSize(new Dimension(700, 500));
+        dialog.setMaximumSize(new Dimension(700, 500));
         panel.setOpaque(false);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
 
     }
 
-//    private void clickcarta(int posicionxx, int posicionyy) {
-//
-//        //his.Tablero = this.controltablero.getTablero();
-//        controlmovimientos(posicionxx, posicionyy);
-//
-//    }
-//    public void controlmovimientos(int posicionx, int posiciony) {
-//
-//        //CoordPersonjSelect <-esta variable verifica si dimos el primer click
-//        System.out.println("x: " + posicionx + "y: " + posiciony);
-//        if (CoordjSelect == null) {
-//
-//            //aqui le asigno otra dimension para guardar la nueva posicion
-//            CoordjSelect = new Dimension(posicionx, 0);
-//            JOptionPane.showMessageDialog(null, "primer movimiento " + posicionx + posiciony);
-//
-//        } else {//mover
-//            //aqui verifico que no se puedan mover diagonalmente o mas de una casilla a la vez
-//
-//            System.out.println("Tablero[CoordPersonjSelect.width][CoordPersonjSelect.height]" + botonescarta[CoordjSelect.width][CoordjSelect.height]);
-//            System.out.println("");
-//            //System.out.println("Tablero[posicionx][posiciony]" + botonescarta[posicionx][0]);
-//
-//            if (botonescarta[posicionx][0].equals("0")) {
-//                botonescarta[posicionx][0] = botonescarta[posicionx][0];
-//                System.out.println("botones[posicionx][posiciony]=" + botonescarta[posicionx][0]);
-//                botonescarta[CoordjSelect.width][CoordjSelect.height] = "0";
-//                CoordjSelect = null;
-//                JOptionPane.showMessageDialog(null, "segundo movimiento " + posicionx + posiciony);
-//                return;
-//            } else {
-//                System.out.println("ya hay una carta en esa posicion");
-//                CoordjSelect = null;
-//            }
-//
-//        }
-//
-//    }
     private void inicializarJugadores() {
         String[] id = nombre.split("\n");
         String nombre1 = "";
@@ -675,6 +760,7 @@ public class tablero extends javax.swing.JFrame {
         menu = new javax.swing.JButton();
         maz = new javax.swing.JLabel();
         Ordenarcartas = new javax.swing.JButton();
+        descartar_carta = new javax.swing.JButton();
         panel_5al8 = new javax.swing.JPanel();
         panelJ8 = new javax.swing.JPanel();
         nombre_J8 = new javax.swing.JLabel();
@@ -762,6 +848,18 @@ public class tablero extends javax.swing.JFrame {
             }
         });
 
+        descartar_carta.setText("Descartar Cartas");
+        descartar_carta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                descartar_cartaMouseClicked(evt);
+            }
+        });
+        descartar_carta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                descartar_cartaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panel_infoLayout = new javax.swing.GroupLayout(panel_info);
         panel_info.setLayout(panel_infoLayout);
         panel_infoLayout.setHorizontalGroup(
@@ -783,7 +881,9 @@ public class tablero extends javax.swing.JFrame {
                         .addComponent(btn_reglas))
                     .addGroup(panel_infoLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Ordenarcartas)))
+                        .addGroup(panel_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(descartar_carta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Ordenarcartas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         panel_infoLayout.setVerticalGroup(
@@ -791,13 +891,8 @@ public class tablero extends javax.swing.JFrame {
             .addGroup(panel_infoLayout.createSequentialGroup()
                 .addGroup(panel_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panel_infoLayout.createSequentialGroup()
-                        .addGroup(panel_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panel_infoLayout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(sacarCarta, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panel_infoLayout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(Ordenarcartas)))
+                        .addGap(12, 12, 12)
+                        .addComponent(sacarCarta, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panel_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panel_infoLayout.createSequentialGroup()
@@ -807,10 +902,17 @@ public class tablero extends javax.swing.JFrame {
                                 .addComponent(maz, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                                 .addComponent(menu))))
                     .addGroup(panel_infoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(turno, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(time, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(panel_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel_infoLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(turno, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(time, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panel_infoLayout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(Ordenarcartas)
+                                .addGap(20, 20, 20)
+                                .addComponent(descartar_carta)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -1371,9 +1473,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg3 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[7]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg3 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("cartjg3" + cartjg3);
                         mostrarCuadroDialogoConImagenes(6, cartjg3);
-                        // JOptionPane.showMessageDialog(null, cartjg3);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg3 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[7]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg3 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(6, cartjg3);
                         ordenarcartas = false;
                     }
@@ -1390,9 +1511,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg3 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg3 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("cartjg3" + cartjg3);
                         mostrarCuadroDialogoConImagenes(7, cartjg3);
-                        // JOptionPane.showMessageDialog(null, cartjg3);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg3 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg3 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(7, cartjg3);
                         ordenarcartas = false;
                     }
@@ -1408,9 +1548,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg3 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[6]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg3 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("cartjg2" + cartjg2);
                         mostrarCuadroDialogoConImagenes(5, cartjg3);
-                        //JOptionPane.showMessageDialog(null, cartjg3);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg3 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[6]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg3 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(5, cartjg3);
                         ordenarcartas = false;
                     }
@@ -1426,9 +1585,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg3 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg3 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("cartjg3" + cartjg3);
                         mostrarCuadroDialogoConImagenes(4, cartjg3);
-                        // JOptionPane.showMessageDialog(null, cartjg3);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg3 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg3 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(4, cartjg3);
                         ordenarcartas = false;
                     }
@@ -1478,10 +1656,44 @@ public class tablero extends javax.swing.JFrame {
                         }
                         darcart = 1;
                     }
+                    if (descartarcarta == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg2 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg2 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("entro a descartar carta");
+                        descartarcartas(7, cartjg2);
+                        descartarcarta = false;
+                        return;
+                    }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg2 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg2 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("cartjg2" + cartjg2);
                         mostrarCuadroDialogoConImagenes(7, cartjg2);
-                        JOptionPane.showMessageDialog(null, cartjg2);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg2 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg2 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(7, cartjg2);
                         ordenarcartas = false;
                     }
@@ -1497,9 +1709,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg2 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[7]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg2 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("cartjg2" + cartjg2);
                         mostrarCuadroDialogoConImagenes(6, cartjg2);
-                        JOptionPane.showMessageDialog(null, cartjg2);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg2 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[7]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg2 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(6, cartjg2);
                         ordenarcartas = false;
                     }
@@ -1515,9 +1746,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg2 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg2 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("cartjg2" + cartjg2);
                         mostrarCuadroDialogoConImagenes(7, cartjg2);
-                        JOptionPane.showMessageDialog(null, cartjg2);
+                        JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg2 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg2 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(7, cartjg2);
                         ordenarcartas = false;
                     }
@@ -1533,9 +1783,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg2 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[6]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg2 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("cartjg2" + cartjg2);
                         mostrarCuadroDialogoConImagenes(5, cartjg2);
-                        //JOptionPane.showMessageDialog(null, cartjg2);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg2 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[6]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg2 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(5, cartjg2);
                         ordenarcartas = false;
                     }
@@ -1551,9 +1820,27 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
-                        mostrarCuadroDialogoConImagenes(4, cartjg2);
-                        //JOptionPane.showMessageDialog(null, cartjg2);
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg2 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg2 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("cartjg2" + cartjg2);
+                        mostrarCuadroDialogoConImagenes(7, cartjg2);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg2 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg2 += "\n" + ordenActu[i];
+                            }
+                        }
 
                         ordenarcartas(4, cartjg2);
                         ordenarcartas = false;
@@ -1590,13 +1877,48 @@ public class tablero extends javax.swing.JFrame {
                         }
                         darcart = 1;
                     }
+                    if (descartarcarta == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg1 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg1 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("entro a descartar carta");
+                        descartarcartas(7, cartjg1);
+                        descartarcarta = false;
+                        return;
+                    }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg1 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg1 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.print("cartjg1" + cartjg1);
                         mostrarCuadroDialogoConImagenes(7, cartjg1);
-                        JOptionPane.showMessageDialog(null, cartjg1);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg1 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg1 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(7, cartjg1);
                         ordenarcartas = false;
                     }
+
                 }
                 if (obrg.getCantidadJ() == 3) {
                     if (darcart == 0) {
@@ -1609,12 +1931,32 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg1 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[7]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg1 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.print("cartjg1" + cartjg1);
                         mostrarCuadroDialogoConImagenes(6, cartjg1);
-                        JOptionPane.showMessageDialog(null, cartjg1);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg1 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[7]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg1 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(6, cartjg1);
                         ordenarcartas = false;
                     }
+
                 }
                 if (obrg.getCantidadJ() == 4) {
                     if (darcart == 0) {
@@ -1627,9 +1969,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg1 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg1 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.print("cartjg1" + cartjg1);
                         mostrarCuadroDialogoConImagenes(7, cartjg1);
-                        //JOptionPane.showMessageDialog(null, cartjg1);
+                        JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg1 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg1 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(7, cartjg1);
                         ordenarcartas = false;
                     }
@@ -1645,9 +2006,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg1 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[6]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg1 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.print("cartjg1" + cartjg1);
                         mostrarCuadroDialogoConImagenes(5, cartjg1);
-                        //JOptionPane.showMessageDialog(null, cartjg1);
+                        JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg1 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[6]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg1 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(5, cartjg1);
                         ordenarcartas = false;
                     }
@@ -1663,9 +2043,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg1 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg1 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.print("cartjg1" + cartjg1);
                         mostrarCuadroDialogoConImagenes(4, cartjg1);
                         JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg1 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg1 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(4, cartjg1);
                         ordenarcartas = false;
                     }
@@ -1699,9 +2098,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg4 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg4 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("cartjg4" + cartjg4);
                         mostrarCuadroDialogoConImagenes(7, cartjg4);
-                        JOptionPane.showMessageDialog(null, cartjg4);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg4 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[8]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg4 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(7, cartjg4);
                         ordenarcartas = false;
                     }
@@ -1717,9 +2135,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg4 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[6]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg4 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("cartjg4" + cartjg4);
                         mostrarCuadroDialogoConImagenes(5, cartjg4);
-                        JOptionPane.showMessageDialog(null, cartjg4);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg4 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[6]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg4 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(5, cartjg4);
                         ordenarcartas = false;
                     }
@@ -1735,9 +2172,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
-                        mostrarCuadroDialogoConImagenes(4, cartjg4);
-                        JOptionPane.showMessageDialog(null, cartjg4);
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg4 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg4 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("cartjg4" + cartjg4);
+                        mostrarCuadroDialogoConImagenes(4, cartjg2);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg4 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg4 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(4, cartjg4);
                         ordenarcartas = false;
                     }
@@ -1772,10 +2228,30 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartg5 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[6]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartg5 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        System.out.println("cartjg3" + cartjg3);
                         mostrarCuadroDialogoConImagenes(5, cartg5);
-                        // JOptionPane.showMessageDialog(null, cartg5);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartg5 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[6]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartg5 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(5, cartg5);
+                        ordenarcartas = false;
                     }
                 }
                 if (obrg.getCantidadJ() == 8) {
@@ -1788,12 +2264,30 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartg5 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartg5 += "\n" + ordenActu[i];
+
+                            }
+                        }
+
                         mostrarCuadroDialogoConImagenes(4, cartg5);
-                        //JOptionPane.showMessageDialog(null, cartg5);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartg5 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartg5 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(4, cartg5);
                         ordenarcartas = false;
-
                     }
                 }
             } catch (IOException e) {
@@ -1825,9 +2319,27 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartg6 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[6]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartg6 += "\n" + ordenActu[i];
+
+                            }
+                        }
+
                         mostrarCuadroDialogoConImagenes(5, cartg6);
-                        JOptionPane.showMessageDialog(null, cartg6);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartg6 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[6]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartg6 += "\n" + ordenActu[i];
+                            }
+                        }
 
                         ordenarcartas(5, cartg6);
                         ordenarcartas = false;
@@ -1843,9 +2355,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartg6 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartg6 += "\n" + ordenActu[i];
+
+                            }
+                        }
+
                         mostrarCuadroDialogoConImagenes(4, cartg6);
-                        //JOptionPane.showMessageDialog(null, cartg6);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartg6 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartg6 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(4, cartg6);
                         ordenarcartas = false;
                     }
@@ -1881,9 +2412,28 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartg7 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartg7 += "\n" + ordenActu[i];
+
+                            }
+                        }
+
                         mostrarCuadroDialogoConImagenes(4, cartg7);
-                        //JOptionPane.showMessageDialog(null, cartg7);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartg7 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartg7 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(4, cartg7);
                         ordenarcartas = false;
                     }
@@ -1918,12 +2468,31 @@ public class tablero extends javax.swing.JFrame {
                         darcart = 1;
                     }
                     if (ordenarcartas == false) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartg8 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartg8 += "\n" + ordenActu[i];
+
+                            }
+                        }
+
                         mostrarCuadroDialogoConImagenes(4, cartg8);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartg8 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartg8 += "\n" + ordenActu[i];
+                            }
+                        }
+
                         ordenarcartas(4, cartg8);
                         ordenarcartas = false;
                     }
-                    //JOptionPane.showMessageDialog(null, cartg8);
                 }
             } catch (IOException e) {
                 System.out.println("Error");
@@ -1938,8 +2507,18 @@ public class tablero extends javax.swing.JFrame {
 
         //Activar variable ordenar carta 
         ordenarcartas = true;
-        JOptionPane.showMessageDialog(null, "Ordene pue");
+        JOptionPane.showMessageDialog(null, "Modo Ordenar Activado");
     }//GEN-LAST:event_OrdenarcartasMouseClicked
+
+    private void descartar_cartaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descartar_cartaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_descartar_cartaActionPerformed
+
+    private void descartar_cartaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descartar_cartaMouseClicked
+        // AQUI PARA DESCARTAS CARTA
+        descartarcarta = true;
+        JOptionPane.showMessageDialog(null, "Ojo!Solo puedes descartar una por turno");
+    }//GEN-LAST:event_descartar_cartaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1987,6 +2566,7 @@ public class tablero extends javax.swing.JFrame {
     private javax.swing.JButton btn_verJ6;
     private javax.swing.JButton btn_verJ7;
     private javax.swing.JButton btn_verJ8;
+    private javax.swing.JButton descartar_carta;
     private javax.swing.JLabel equipo_J1;
     private javax.swing.JLabel equipo_J2;
     private javax.swing.JLabel equipo_J3;

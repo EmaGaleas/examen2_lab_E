@@ -101,9 +101,9 @@ public class Repartircartas_tab {
             return null;
         } else {
             cartas = this.carta[posionsigcart++];
+            System.out.println("siguiente:" + cartas);
         }
-       System.out.println("cartas dar" + cartas);
-        System.out.println(""+cont++);
+      
         return cartas;
     }
 
