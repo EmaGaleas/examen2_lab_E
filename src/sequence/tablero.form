@@ -102,9 +102,7 @@
                           <Component id="time" pref="344" max="32767" attributes="0"/>
                           <Component id="turno" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="136" max="32767" attributes="0"/>
-                      <Component id="menu" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                      <EmptySpace pref="284" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="maz" max="32767" attributes="0"/>
                           <Component id="sacarCarta" pref="109" max="32767" attributes="0"/>
@@ -139,10 +137,7 @@
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       <Component id="btn_reglas" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                      <Component id="maz" alignment="3" pref="34" max="32767" attributes="0"/>
-                                      <Component id="menu" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="maz" alignment="0" min="-2" pref="34" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" attributes="0">
@@ -211,14 +206,6 @@
               </AccessibilityProperties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sacarCartaMouseClicked"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="menu">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="volver menu"/>
-              </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="menuMouseClicked"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="maz">

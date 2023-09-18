@@ -86,7 +86,7 @@ public class tablero extends javax.swing.JFrame {
         tij = new Timer(retraso, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (lt.seRealizoAccion()) {
+                if (lt.seRealizoAccion() && (lt.secuencia1!=2 || lt.secuencia2!=2 || lt.secuencia3!=2)) {
                     paro();
                     System.out.println("lt.elegida"+lt.elegida);
                     nuevomazo.add(lt.elegida);
@@ -109,33 +109,70 @@ public class tablero extends javax.swing.JFrame {
     }
 
     private void actLabelTIME() {
-        int minutos = segundos / 60;
-        int segundosRestantes = segundos % 60;
-        String tiempoFormateado = String.format("%02d:%02d", minutos, segundosRestantes);
-        time.setText(tiempoFormateado);
+        if(lt.secuencia1==2 || lt.secuencia2==2 || lt.secuencia3==2){
+            timer.stop();
+            tij.stop();
+            menu_p p=new menu_p();
+            p.setVisible(true);
+            this.setVisible(false);
+        }else{
+            int minutos = segundos / 60;
+            int segundosRestantes = segundos % 60;
+            String tiempoFormateado = String.format("%02d:%02d", minutos, segundosRestantes);
+            time.setText(tiempoFormateado);
+        }
+        
     }
 
     public void paro() {
-        timer.stop();//para timer y turno
-        JOptionPane.showMessageDialog(null, "Cambio de turno");//para timer y turno
-        segundos = 0; //para timer y turno
-        actLabelTIME();//para timer y turno
-        timer.start();//para timer y turno
-        actualizarLabelT();//para timer y turno
+        if(lt.secuencia1==2 || lt.secuencia2==2 || lt.secuencia3==2){
+            timer.stop();
+            tij.stop();
+            menu_p p=new menu_p();
+            p.setVisible(true);
+            this.setVisible(false);
+       
+        }else{
+            timer.stop();//para timer y turno
+            JOptionPane.showMessageDialog(null, "Cambio de turno");//para timer y turno
+            segundos = 0; //para timer y turno
+            actLabelTIME();//para timer y turno
+            timer.start();//para timer y turno
+            actualizarLabelT();//para timer y turno
+        }
     }
 
     private void finTIME() {
-        JOptionPane.showMessageDialog(this, ":(\nSE TE ACABO EL TIEMPO\nCambio de turno", "Fin turno", JOptionPane.INFORMATION_MESSAGE);
-        segundos = 0;
-        actLabelTIME();
-        timer.start();
-        actualizarLabelT();
+        if(lt.secuencia1==2 || lt.secuencia2==2 || lt.secuencia3==2){
+            timer.stop();
+            tij.stop();
+            menu_p p=new menu_p();
+            p.setVisible(true);
+            this.setVisible(false);
+       
+        }else{
+            JOptionPane.showMessageDialog(this, ":(\nSE TE ACABO EL TIEMPO\nCambio de turno", "Fin turno", JOptionPane.INFORMATION_MESSAGE);
+            segundos = 0;
+            actLabelTIME();
+            timer.start();
+            actualizarLabelT();
+        }
     }
 
     public void actualizarLabelT() {
-        lt.cambiorturno();
-        String turnoString = lt.txtTurnoSting();
-        turno.setText("Turno de: " + turnoString);
+        if(lt.secuencia1==2 || lt.secuencia2==2 || lt.secuencia3==2){
+            timer.stop();
+            tij.stop();
+            menu_p p=new menu_p();
+            p.setVisible(true);
+            this.setVisible(false);
+       
+        }else{
+           lt.cambiorturno();
+            String turnoString = lt.txtTurnoSting();
+            turno.setText("Turno de: " + turnoString); 
+        }
+        
 
     }
 
@@ -759,7 +796,6 @@ public class tablero extends javax.swing.JFrame {
         time = new javax.swing.JLabel();
         btn_reglas = new javax.swing.JButton();
         sacarCarta = new javax.swing.JButton();
-        menu = new javax.swing.JButton();
         maz = new javax.swing.JLabel();
         Ordenarcartas = new javax.swing.JButton();
         descartar_carta = new javax.swing.JButton();
@@ -830,13 +866,6 @@ public class tablero extends javax.swing.JFrame {
             }
         });
 
-        menu.setText("volver menu");
-        menu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuMouseClicked(evt);
-            }
-        });
-
         maz.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         maz.setForeground(new java.awt.Color(255, 255, 255));
         maz.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -871,9 +900,7 @@ public class tablero extends javax.swing.JFrame {
                 .addGroup(panel_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(time, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
                     .addComponent(turno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
-                .addComponent(menu)
-                .addGap(53, 53, 53)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 284, Short.MAX_VALUE)
                 .addGroup(panel_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(maz, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sacarCarta, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
@@ -900,9 +927,7 @@ public class tablero extends javax.swing.JFrame {
                             .addGroup(panel_infoLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btn_reglas))
-                            .addGroup(panel_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(maz, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                                .addComponent(menu))))
+                            .addComponent(maz, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panel_infoLayout.createSequentialGroup()
                         .addGroup(panel_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panel_infoLayout.createSequentialGroup()
@@ -1440,16 +1465,6 @@ public class tablero extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void menuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuMouseClicked
-        //probar
-        timer.stop();
-        menu_p objmenu = new menu_p();
-        objmenu.setVisible(true);
-        this.setVisible(false);
-
-
-    }//GEN-LAST:event_menuMouseClicked
 
     private void btn_verJ2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_verJ2MouseClicked
         //JUGADOR 3
@@ -2923,7 +2938,6 @@ public class tablero extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel maz;
-    private javax.swing.JButton menu;
     private javax.swing.JPanel noBorrar;
     private javax.swing.JPanel noBorrar2;
     private javax.swing.JLabel nombre_J1;

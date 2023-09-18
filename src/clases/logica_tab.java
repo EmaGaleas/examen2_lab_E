@@ -382,7 +382,7 @@ public class logica_tab {
         matrizBotones[9][9].setPosesion("NO APLICA");
         if(elegida.equals("a")){
             JOptionPane.showMessageDialog(null, "NO HAS ELEGIDO UNA CARTA", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
-        }else if(carta.getPosesion().equals("NADIE") && !carta.getTipo().equals("ESQUINA") && elegida.equals(carta.getTipo()) ) {//
+        }else if(carta.getPosesion().equals("NADIE") && !carta.getTipo().equals("ESQUINA")  && elegida.equals(carta.getTipo())) {//&& elegida.equals(carta.getTipo()
             button.setIcon(call_png_fichas.obtenerFicha(fichaActual));
             carta.setPosesion(posesion);
             secuenciaHorizontal( fila,columa);

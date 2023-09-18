@@ -323,7 +323,7 @@ public class oponente extends javax.swing.JFrame {
                             ( E3 < jper )) {
                             name[selec] = jugadores;
                             selec++;
-                            JOptionPane.showMessageDialog(null, "Jugador añadido");
+                         //   JOptionPane.showMessageDialog(null, "Jugador añadido");
                             seleccionados.setText(n);
                             if (swis==1 && E1 < jper) {
                                 E1++;
@@ -368,7 +368,7 @@ public class oponente extends javax.swing.JFrame {
                     }
                  
             } else {
-                JOptionPane.showMessageDialog(null, "Puedes continuar");
+                JOptionPane.showMessageDialog(null, "PREPARENSE PARA JUGAR");
                 tablero t = new tablero(n);
                 t.setVisible(true);
                 this.setVisible(false);
