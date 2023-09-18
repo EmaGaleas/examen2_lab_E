@@ -101,7 +101,7 @@ public class Repartircartas_tab {
             return null;
         } else {
             cartas = this.carta[posionsigcart++];
-            System.out.println("siguiente:" + cartas);
+            //System.out.println("siguiente:" + cartas);
         }
       
         return cartas;
@@ -134,7 +134,7 @@ public class Repartircartas_tab {
     public int cartasDisponible() {
         
         int cartasdisponibles=numcarts - posionsigcart;
-        System.out.println("cartasdisponibles"+cartasdisponibles);
+        //System.out.println("cartasdisponibles"+cartasdisponibles);
         return cartasdisponibles;
         
     }
