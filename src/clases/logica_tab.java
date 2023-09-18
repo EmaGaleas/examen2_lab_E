@@ -27,7 +27,7 @@ import javax.swing.SwingUtilities;
 
 
 public class logica_tab {
-   public JButton[][] matrizButtonsUI;//ACCEDE A LOS BOTONES
+     public JButton[][] matrizButtonsUI;//ACCEDE A LOS BOTONES
     public cartas[][] matrizBotones; //de JButton a Pieza por valores
     private call_png_baraja baraja; 
     public int s=1;
@@ -48,14 +48,12 @@ public class logica_tab {
     public  String elegida="a";
     public int secuencia1=0,secuencia2=0,secuencia3=0;
    
-
     public logica_tab() {
         matrizButtonsUI = new JButton[10][10]; 
         baraja = new call_png_baraja(); 
         turno=1;
         t1=""; t2=""; t3=""; t4="";
         t5=""; t6=""; t7=""; t8="";
-        
         fichaActual="ROJO";
     } 
     public void GridLayout(JPanel tab) {
@@ -79,10 +77,8 @@ public class logica_tab {
                 JButton button=new JButton(); //CREAR JBUTTON
                 matrizButtonsUI[i][j]=button;
                 tab.add(button);
-                
                 int ancho=(int)(1.4*40);
                 int largo=(int)(1.4*40);
-                
                 button.setPreferredSize(new Dimension(ancho, largo));
                 button.setOpaque(false);
                 button.setContentAreaFilled(false);
@@ -90,14 +86,9 @@ public class logica_tab {
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        
-                         p( button, carta.getFila(),carta.getColumna()); 
-//                         System.out.println(miembros1);
-//                         System.out.println(miembros2);
-//                         System.out.println(miembros3);
+                        p( button, carta.getFila(),carta.getColumna()); 
                     }
                 });
-              //button.setBackground(Color.black);
             }
         }
     }
@@ -106,30 +97,25 @@ public class logica_tab {
             System.out.println("...");
             return;
         }
- matrizBotones[0][0].setPosesion(posesion);
-            matrizBotones[0][9].setPosesion(posesion);
-            matrizBotones[9][0].setPosesion(posesion);
-            matrizBotones[9][9].setPosesion(posesion);
+        matrizBotones[0][0].setPosesion(posesion);
+        matrizBotones[0][9].setPosesion(posesion);
+        matrizBotones[9][0].setPosesion(posesion);
+        matrizBotones[9][9].setPosesion(posesion);
         String[] horizontal = new String[10]; 
-
         for (int i = 0; i < 10; i++) {
             horizontal[i] = matrizBotones[fila][i].getPosesion();
         }
-
         int numSeguidos = 0;
         if (horizontal != null) {
          //   System.out.println("Horizontal:");
-
             for (int i = 0; i < horizontal.length; i++) {
                 String valor = horizontal[i];
-
                 if (valor != null && (valor.equals(posesion) ||  valor.equals(posesion.replaceAll("\\s", "")+".") ||  valor.equals(posesion.replaceAll("\\s", "")+",") ||  valor.equals(posesion.replaceAll("\\s", "")+"+"))) {
                     numSeguidos++;
                 } else {
                     numSeguidos = 0; 
                 }
                 if (numSeguidos == 5) {
-                    String que = "";
                     if(posesion.equals("EQUIPO 1")){
                         secuencia1++;
                         JPanel panel = new JPanel();
@@ -140,9 +126,8 @@ public class logica_tab {
                             JLabel label = new JLabel();
                             label.setIcon(call_png_baraja.obtenerFicha(tipo));
                             panel.add(label);
-                            que += tipo + ", ";
                         }
-                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 1 ha hecho UNA SECUENCIA HORIZONTAL\n"+que, JOptionPane.INFORMATION_MESSAGE);break; 
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 1 ha hecho UNA SECUENCIA HORIZONTAL", JOptionPane.INFORMATION_MESSAGE);break; 
 
                     }else if(posesion.equals("EQUIPO 2")){
                         secuencia2++;
@@ -154,9 +139,8 @@ public class logica_tab {
                             JLabel label = new JLabel();
                             label.setIcon(call_png_baraja.obtenerFicha(tipo));
                             panel.add(label);
-                            que += tipo + ", ";
                         }
-                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 2 ha hecho UNA SECUENCIA HORIZONTAL\n"+que, JOptionPane.INFORMATION_MESSAGE);break; 
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 2 ha hecho UNA SECUENCIA HORIZONTAL", JOptionPane.INFORMATION_MESSAGE);break; 
 
                     }else if(posesion.equals("EQUIPO 3")){
                         secuencia3++;
@@ -168,9 +152,8 @@ public class logica_tab {
                             JLabel label = new JLabel();
                             label.setIcon(call_png_baraja.obtenerFicha(tipo));
                             panel.add(label);
-                            que += tipo + ", ";
                         }
-                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 3 ha hecho UNA SECUENCIA HORIZONTAL\n"+que, JOptionPane.INFORMATION_MESSAGE);break; 
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 3 ha hecho UNA SECUENCIA HORIZONTAL", JOptionPane.INFORMATION_MESSAGE);break; 
                     }
                 }
             }
@@ -191,7 +174,6 @@ public class logica_tab {
             matrizBotones[9][9].setPosesion(posesion);
             String valorActual = matrizBotones[i][columna].getPosesion();
           //  System.out.println(s);
-            
             String nee=posesion.replaceAll("\\s", "");
             if (valorActual.equals(valorAnterior)  && (valorActual.equals(posesion)
                    || valorActual.equals(nee+",")|| valorActual.equals(posesion.replaceAll("\\s", ""))|| valorActual.equals(nee+"+")))   {
@@ -203,41 +185,49 @@ public class logica_tab {
                 secuenciaFormada = false;
             }
             if(numSeguidos==5){
-                String que="";
                 secuenciaFormada = true;
                 if(posesion.equals("EQUIPO 1")){
                     secuencia1++;
+                    JPanel panel = new JPanel();
+                    panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
                     for (int j = i; j > i - 5; j--) {
-                        
                             matrizBotones[j][columna].setPosesion("EQUIPO1.");
-                            que+=matrizBotones[j][columna].getTipo()+",";
-                    }
-                    JOptionPane.showMessageDialog(null, "EQUIPO 1 ha hecho UNA SECUENCIA VERTICAL\n"+que, "SECUENCIA", JOptionPane.INFORMATION_MESSAGE);
+                            String tipo = matrizBotones[j][columna].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
+                        }
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 1 ha hecho UNA SECUENCIA VERTICAL", JOptionPane.INFORMATION_MESSAGE);
                 }else if(posesion.equals("EQUIPO 2")){
                     secuencia2++;
+                    JPanel panel = new JPanel();
+                    panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
                     for (int j = i; j > i - 5; j--) {
                             matrizBotones[j][columna].setPosesion("EQUIPO2.");
-                            que+=matrizBotones[j][columna].getTipo()+",";
-                        
-                    }
-                    JOptionPane.showMessageDialog(null, "EQUIPO 2 ha hecho UNA SECUENCIA VERTICAL\n"+que, "SECUENCIA", JOptionPane.INFORMATION_MESSAGE);
+                            String tipo = matrizBotones[j][columna].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
+                        }
+                    JOptionPane.showMessageDialog(null, panel, "EQUIPO 2 ha hecho UNA SECUENCIA VERTICAL", JOptionPane.INFORMATION_MESSAGE);
                 }else if(posesion.equals("EQUIPO 3")){
                     secuencia3++;
+                    JPanel panel = new JPanel();
+                    panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
                     for (int j = i; j > i - 5; j--) {
                             matrizBotones[j][columna].setPosesion("EQUIPO3.");
-                            que+=matrizBotones[j][columna].getTipo()+",";
-                        
-                    }
-                    JOptionPane.showMessageDialog(null, "EQUIPO 3 ha hecho UNA SECUENCIA VERTICAL\n"+que, "SECUENCIA", JOptionPane.INFORMATION_MESSAGE);
+                            String tipo = matrizBotones[j][columna].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
+                        }
+                    JOptionPane.showMessageDialog(null, panel, "EQUIPO 3 ha hecho UNA SECUENCIA VERTICAL", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }
    }
   
-
-// Función para obtener la diagonal de izquierda a derecha
     private void obtenerDiagonalIzquierdaDerecha(int fila, int columna) {
-           
         if (fila < 0 || fila >= 10 || columna < 0 || columna >= 10) {
             System.out.println("NOOO LA DIAGONAL DERECHA IZQUIERDA");
             return;
@@ -246,59 +236,62 @@ public class logica_tab {
         matrizBotones[0][9].setPosesion(posesion);
         matrizBotones[9][0].setPosesion(posesion);
         matrizBotones[9][9].setPosesion(posesion);
-
         String[] diagonal = new String[10]; 
-
-        int delta = Math.min(fila, columna); 
-        fila -= delta;
-        columna -= delta;
-
+        int apiadate = Math.min(fila, columna); 
+        fila -= apiadate;
+        columna -= apiadate;
         for (int i = 0; i < 10 && fila + i < 10 && columna + i < 10; i++) {
             diagonal[i] = matrizBotones[fila + i][columna + i].getPosesion();
-
         }
         int numSeguidos=0;
         if (diagonal != null) {
        // System.out.println("Diagonal de izquierda a derecha:");
-
             for (int i = 0; i < diagonal.length; i++) {
                 String valor = diagonal[i];
-
                 if (valor != null && (valor.equals(posesion) || valor.equals(posesion.replaceAll("\\s", "")) || valor.equals(posesion.replaceAll("\\s", "") + ".") || valor.equals(posesion.replaceAll("\\s", "")+"+")))  {
                     numSeguidos++;
                 } else {
                     numSeguidos = 0; 
                 }
-
-              //  System.out.println(valor);
-
                 if (numSeguidos == 5) {
-                    String que="";
                     if(posesion.equals("EQUIPO 1")){
                         secuencia1++;
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
                         for (int j = 0; j < 5; j++) {
                             matrizBotones[fila + i - j][columna + i - j].setPosesion("EQUIPO1,");
-                            que+=matrizBotones[fila + i - j][columna + i - j].getTipo()+", ";
+                            String tipo = matrizBotones[fila + i - j][columna + i - j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
                         }
-                        JOptionPane.showMessageDialog(null, "EQUIPO 1 ha hecho UNA SECUENCIA DIAGONAL\n"+que, "SECUENCIA", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 1 ha hecho UNA SECUENCIA DIAGONAL", JOptionPane.INFORMATION_MESSAGE);
                         break; 
                     }else if(posesion.equals("EQUIPO 2")){
                         secuencia2++;
-
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
                         for (int j = 0; j < 5; j++) {
                             matrizBotones[fila + i - j][columna + i - j].setPosesion("EQUIPO2,");
-                            que+=matrizBotones[fila + i - j][columna + i - j].getTipo()+", ";
+                            String tipo = matrizBotones[fila + i - j][columna + i - j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
                         }
-                        JOptionPane.showMessageDialog(null, "EQUIPO 2 ha hecho UNA SECUENCIA DIAGONAL\n"+que, "SECUENCIA", JOptionPane.INFORMATION_MESSAGE);
-                        break; 
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 2 ha hecho UNA SECUENCIA DIAGONAL", JOptionPane.INFORMATION_MESSAGE);
+                        break;  
                     }else if(posesion.equals("EQUIPO 3")){
                         secuencia3++;
-
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
                         for (int j = 0; j < 5; j++) {
                             matrizBotones[fila + i - j][columna + i - j].setPosesion("EQUIPO3,");
-                            que+=matrizBotones[fila + i - j][columna + i - j].getTipo()+", ";
+                            String tipo = matrizBotones[fila + i - j][columna + i - j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
                         }
-                        JOptionPane.showMessageDialog(null, "EQUIPO 3 ha hecho UNA SECUENCIA DIAGONAL\n"+que, "SECUENCIA", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 3 ha hecho UNA SECUENCIA DIAGONAL", JOptionPane.INFORMATION_MESSAGE);
                         break; 
                     }
                 }
@@ -317,58 +310,62 @@ public class logica_tab {
         matrizBotones[0][9].setPosesion(posesion);
         matrizBotones[9][0].setPosesion(posesion);
         matrizBotones[9][9].setPosesion(posesion);
-
         String[] diagonal = new String[10]; 
-
-        int delta = Math.min(fila, 9 - columna); 
-        fila -= delta;
-        columna += delta;
-
+        int apiadate = Math.min(fila, 9 - columna); 
+        fila -= apiadate;
+        columna += apiadate;
         for (int i = 0; i < 10 && fila + i < 10 && columna - i >= 0; i++) {
             diagonal[i] = matrizBotones[fila + i][columna - i].getPosesion();
         }
-
         int numSeguidos = 0;
         if (diagonal != null) {
-          //  System.out.println("Diagonal de derecha a izquierda:");
-
             for (int i = 0; i < diagonal.length; i++) {
                 String valor = diagonal[i];
-
                 if (valor != null && (valor.equals(posesion) || valor.equals(posesion.replaceAll("\\s", "")) || valor.equals(posesion.replaceAll("\\s", "") + ".") || valor.equals(posesion.replaceAll("\\s", "") + ",")))  {
                     numSeguidos++;
                 } else {
                     numSeguidos = 0; 
                 }
-
                 if (numSeguidos == 5) {
-                    String que = "";
                     if(posesion.equals("EQUIPO 1")){
                         secuencia1++;
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
                         for (int j = 0; j < 5; j++) {
                             matrizBotones[fila + i - j][columna - i + j].setPosesion("EQUIPO1+");
-                            que += matrizBotones[fila + i - j][columna - i + j].getTipo() + ", ";
+                            String tipo = matrizBotones[fila + i - j][columna - i + j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
                         }
-                        JOptionPane.showMessageDialog(null, "EQUIPO 1 ha hecho UNA SECUENCIA DIAGONAL\n"+que, "SECUENCIA", JOptionPane.INFORMATION_MESSAGE);
-                        break; 
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 1 ha hecho UNA SECUENCIA DIAGONAL", JOptionPane.INFORMATION_MESSAGE);
+                        break;  
                     }else if(posesion.equals("EQUIPO 2")){
                         secuencia2++;
-
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
                         for (int j = 0; j < 5; j++) {
                             matrizBotones[fila + i - j][columna - i + j].setPosesion("EQUIPO2+");
-                            que += matrizBotones[fila + i - j][columna - i + j].getTipo() + ", ";
+                            String tipo = matrizBotones[fila + i - j][columna - i + j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
                         }
-                        JOptionPane.showMessageDialog(null, "EQUIPO 2 ha hecho UNA SECUENCIA DIAGONAL\n"+que, "SECUENCIA", JOptionPane.INFORMATION_MESSAGE);
-                        break; 
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 2 ha hecho UNA SECUENCIA DIAGONAL", JOptionPane.INFORMATION_MESSAGE);
+                        break;
                     }else if(posesion.equals("EQUIPO 3")){
                         secuencia3++;
-
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
                         for (int j = 0; j < 5; j++) {
                             matrizBotones[fila + i - j][columna - i + j].setPosesion("EQUIPO3+");
-                            que += matrizBotones[fila + i - j][columna - i + j].getTipo() + ", ";
+                            String tipo = matrizBotones[fila + i - j][columna - i + j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
                         }
-                        JOptionPane.showMessageDialog(null, "EQUIPO 3 ha hecho UNA SECUENCIA DIAGONAL\n"+que, "SECUENCIA", JOptionPane.INFORMATION_MESSAGE);
-                        break; 
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 3 ha hecho UNA SECUENCIA DIAGONAL", JOptionPane.INFORMATION_MESSAGE);
+                        break;
                     }
                 }
             }
@@ -383,12 +380,11 @@ public class logica_tab {
         matrizBotones[0][9].setPosesion("NO APLICA");
         matrizBotones[9][0].setPosesion("NO APLICA");
         matrizBotones[9][9].setPosesion("NO APLICA");
-        if(elegida.equals("b")){
+        if(elegida.equals("a")){
             JOptionPane.showMessageDialog(null, "NO HAS ELEGIDO UNA CARTA", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
         }else if(carta.getPosesion().equals("NADIE") && !carta.getTipo().equals("ESQUINA") ) {//
             button.setIcon(call_png_fichas.obtenerFicha(fichaActual));
             carta.setPosesion(posesion);
-            
             secuenciaHorizontal( fila,columa);
             secuenciaVertical( columa);
             obtenerDiagonalIzquierdaDerecha( fila, columa) ;
@@ -523,9 +519,10 @@ public class logica_tab {
         }else{
             if(carta.getTipo().equals("ESQUINA")){
                 JOptionPane.showMessageDialog(null, "No puedes poner NADA aqui", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "NO COINCIDE CON TU ELECCION", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
+                mostrarInformacionPieza(carta);
             }
-            JOptionPane.showMessageDialog(null, "NO COINCIDE CON TU ELECCION", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
-            mostrarInformacionPieza(carta);
         }  
         
     }
@@ -558,7 +555,7 @@ public class logica_tab {
         int valorPicaColumna0=9;//columna 0 fila del 1 al 8
         String posesionInicial="NADIE";
         for (int f = 1; f < 9; f++) {
-            matrizBotones[f][0]=new cartas("PICA", valorPicaColumna0, posesionInicial,f,0);
+            matrizBotones[f][0]=new cartas("PICA"+valorPicaColumna0, valorPicaColumna0, posesionInicial,f,0);
             valorPicaColumna0--;//llega hasta 2
         }
     //columna 9
@@ -1074,8 +1071,5 @@ public class logica_tab {
         return fichaActual;
     }public void setFichaActual(String fichaActual) {
         this.fichaActual = fichaActual;
-    }
-    
-    
-    
+    }    
 }
