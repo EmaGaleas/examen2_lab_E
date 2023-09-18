@@ -510,7 +510,7 @@ public class logica_tab {
                     }
                 } else {
                         cambioValido = true;
-                        elegida = "a";
+                        //elegida = "a";
                     }
                 
             }catch(IOException e){

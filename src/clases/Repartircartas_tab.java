@@ -63,7 +63,7 @@ public class Repartircartas_tab {
                 carta[i].setValor(14);
 
             }
-            System.out.println(" carta[i]"+ carta[i]);
+            //System.out.println(" carta[i]"+ carta[i]);
 
         }
         for (int i = 0; i < carta.length; i++) {
@@ -95,7 +95,7 @@ public class Repartircartas_tab {
             carta[i] = carta[posicionaleatoria];
             carta[posicionaleatoria] = cart2;
 
-             System.out.println(carta[posicionaleatoria].getTipo()+carta[posicionaleatoria].getValor());
+            // System.out.println(carta[posicionaleatoria].getTipo()+carta[posicionaleatoria].getValor());
         }
 
     }
