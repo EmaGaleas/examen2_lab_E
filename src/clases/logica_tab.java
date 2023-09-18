@@ -47,6 +47,8 @@ public class logica_tab {
     private boolean cambioValido = false;
     public  String elegida="a";
     public int secuencia1=0,secuencia2=0,secuencia3=0;
+    
+    public boolean bloqueo=false;
    
     public logica_tab() {
         matrizButtonsUI = new JButton[10][10]; 
@@ -86,7 +88,7 @@ public class logica_tab {
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        p( button, carta.getFila(),carta.getColumna()); 
+                        p( button, carta.getFila(),carta.getColumna(),carta.getTipo()); 
                     }
                 });
             }
@@ -374,7 +376,7 @@ public class logica_tab {
         }
     }
 
-    private void p(JButton button, int fila, int columa) {
+    private void p(JButton button, int fila, int columa,String tipo) {
         cartas carta = matrizBotones[fila][columa];
         matrizBotones[0][0].setPosesion("NO APLICA");
         matrizBotones[0][9].setPosesion("NO APLICA");
@@ -382,6 +384,67 @@ public class logica_tab {
         matrizBotones[9][9].setPosesion("NO APLICA");
         if(elegida.equals("a")){
             JOptionPane.showMessageDialog(null, "NO HAS ELEGIDO UNA CARTA", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
+        }else if(elegida.equals("CORAZON13") || elegida.equals("PICA13")){
+            if(posesion.equals("EQUIPO 1")){
+                if(carta.getPosesion().equals("EQUIPO 2") || carta.getPosesion().equals("EQUIPO 3") ){
+                    carta.setPosesion("NADIE");
+                    button.setIcon(null);
+                    cambioValido = true;
+                   
+                 //   elegida = "a";
+                }else{
+                    secuenciaHorizontalBloqueo(fila,  columa,tipo,button);
+                    secuenciaVerticalBloqueo( fila, columa,tipo,button);
+                    secuenciaDiagonalDerechaIzquierdaBloqueo(fila,  columa, tipo, button);
+                    secuenciaDiagonalIzquierdaDerechaBloqueo(fila,  columa, tipo, button);
+                    if(bloqueo){
+                        cambioValido = true;
+                        bloqueo=false;
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Bloqueo no valido", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
+                    }
+                   //     elegida = "a";
+                }
+            }else if(posesion.equals("EQUIPO 3")){
+                if(carta.getPosesion().equals("EQUIPO 1") || carta.getPosesion().equals("EQUIPO 2") ){
+                    carta.setPosesion("NADIE");
+                    button.setIcon(null);
+                    cambioValido = true;
+               //     elegida = "a";
+                }else{
+                    secuenciaHorizontalBloqueo(fila,  columa,tipo,button);
+                    secuenciaVerticalBloqueo( fila, columa,tipo,button);
+                    secuenciaDiagonalDerechaIzquierdaBloqueo(fila,  columa, tipo, button);
+                    secuenciaDiagonalIzquierdaDerechaBloqueo(fila,  columa, tipo, button);
+                    if(bloqueo){
+                        cambioValido = true;
+                        bloqueo=false;
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Bloqueo no valido", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
+                    }
+               //     elegida = "a";
+                }
+            }else if(posesion.equals("EQUIPO 2")){
+                if(carta.getPosesion().equals("EQUIPO 1") || carta.getPosesion().equals("EQUIPO 3") ){
+                    carta.setPosesion("NADIE");
+                    button.setIcon(null);
+                    cambioValido = true;
+                        elegida = "a";
+                }else{
+                    secuenciaHorizontalBloqueo(fila,  columa,tipo,button);
+                    secuenciaVerticalBloqueo( fila, columa,tipo,button);
+                    secuenciaDiagonalDerechaIzquierdaBloqueo(fila,  columa, tipo, button);
+                    secuenciaDiagonalIzquierdaDerechaBloqueo(fila,  columa, tipo, button);
+                    if(bloqueo){
+                        cambioValido = true;
+                        bloqueo=false;
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Bloqueo no valido", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
+                    }
+               //      elegida = "a";
+                }
+            }
+            
         }else if(carta.getPosesion().equals("NADIE") && !carta.getTipo().equals("ESQUINA")  && elegida.equals(carta.getTipo())) {//&& elegida.equals(carta.getTipo()
             button.setIcon(call_png_fichas.obtenerFicha(fichaActual));
             carta.setPosesion(posesion);
@@ -521,7 +584,7 @@ public class logica_tab {
                 JOptionPane.showMessageDialog(null, "No puedes poner NADA aqui", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
             }else{
                 JOptionPane.showMessageDialog(null, "NO COINCIDE CON TU ELECCION", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
-                mostrarInformacionPieza(carta);
+              //  mostrarInformacionPieza(carta);
             }
         }  
         
@@ -1072,4 +1135,358 @@ public class logica_tab {
     }public void setFichaActual(String fichaActual) {
         this.fichaActual = fichaActual;
     }    
+     private void secuenciaHorizontalBloqueo(int fila, int columna,String carta,JButton but) {
+        if (fila < 0 || fila >= 10 || columna < 0 || columna >= 10) {
+         // System.out.println("...");
+          return;
+      }
+        String contra = "EQUIPO 1"; 
+        String contra1 = "EQUIPO 1"; 
+      if(posesion.equals("EQUIPO 1")){
+          contra="EQUIPO 2";
+          contra1="EQUIPO 3";
+      }else if(posesion.equals("EQUIPO 2")){
+          contra="EQUIPO 1";
+          contra1="EQUIPO 3";
+      }else if(posesion.equals("EQUIPO 3")){
+          contra="EQUIPO 1";
+          contra1="EQUIPO 2";
+      }
+      if (carta.equals("CORAZON13") || carta.equals("PICA13") || carta.equals("DIAMANTE14") || carta.equals("TREBOL14")) {
+          String[] horizontal = new String[10];
+          for (int i = 0; i < 10; i++) {
+              horizontal[i] = matrizBotones[fila][i].getPosesion();
+          }
+            for (int i = 0; i < 10; i++) {
+                int numSeguidos = 0;
+                for (int j = i; j >= 0; j--) {
+                    if (horizontal[j] != null && !horizontal[j].equals(contra)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+            for (int j = i + 1; j < 10; j++) {
+                if (horizontal[j] != null && !horizontal[j].equals(contra)) {
+                    break; 
+                }
+                numSeguidos++;
+            }
+
+              if (numSeguidos == 4) {
+                    if(carta.equals("CORAZON13") || carta.equals("PICA13")){
+                        bloqueo=true;
+                        matrizBotones[fila][columna].setPosesion(posesion+3);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }else{
+                        bloqueo=true;
+                        matrizBotones[fila][columna].setPosesion(posesion);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }
+                 
+                }
+            }
+            for (int i = 0; i < 10; i++) {
+                int numSeguidos = 0;
+                for (int j = i; j >= 0; j--) {
+                    if (horizontal[j] != null && !horizontal[j].equals(contra1)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+                for (int j = i + 1; j < 10; j++) {
+                    if (horizontal[j] != null && !horizontal[j].equals(contra1)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+
+                if (numSeguidos == 4) {
+                    if(carta.equals("CORAZON13") || carta.equals("PICA13")){
+                        bloqueo=true;
+                        matrizBotones[fila][columna].setPosesion(posesion+3);
+                        System.out.println("siiSISIIS");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiSISIIS");
+                    }else{
+                        bloqueo=true;
+                        matrizBotones[fila][columna].setPosesion(posesion);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }
+                }
+            }
+          
+        }
+   }
+      private void secuenciaVerticalBloqueo(int fila, int columna,String carta,JButton but) {
+        if (fila < 0 || fila >= 10 || columna < 0 || columna >= 10) {
+         // System.out.println("...");
+            return;
+        }
+            String contra = "EQUIPO 1"; 
+            String contra1 = "EQUIPO 1"; 
+          if(posesion.equals("EQUIPO 1")){
+              contra="EQUIPO 2";
+              contra1="EQUIPO 3";
+          }else if(posesion.equals("EQUIPO 2")){
+              contra="EQUIPO 1";
+              contra1="EQUIPO 3";
+          }else if(posesion.equals("EQUIPO 3")){
+              contra="EQUIPO 1";
+              contra1="EQUIPO 2";
+          }
+        if (carta.equals("CORAZON13") || carta.equals("PICA13") || carta.equals("DIAMANTE14") || carta.equals("TREBOL14")) {
+            String[] vertical = new String[10];
+            for (int i = 0; i < 10; i++) {
+                vertical[i] = matrizBotones[i][columna].getPosesion();
+            }
+            for (int i = 0; i < 10; i++) {
+                int numSeguidos = 0;
+                for (int j = i; j >= 0; j--) {
+                    if (vertical[j] != null && !vertical[j].equals(contra)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+            for (int j = i + 1; j < 10; j++) {
+                if (vertical[j] != null && !vertical[j].equals(contra)) {
+                    break; 
+                }
+                numSeguidos++;
+            }
+
+             if (numSeguidos == 4) {
+                    if(carta.equals("CORAZON13") || carta.equals("PICA13")){
+                        bloqueo=true;
+                        matrizBotones[i][columna].setPosesion(posesion+3);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }else{
+                        bloqueo=true;
+                        matrizBotones[i][columna].setPosesion(posesion);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }
+                 
+                }
+            }
+            for (int i = 0; i < 10; i++) {
+                int numSeguidos = 0;
+                for (int j = i; j >= 0; j--) {
+                    if (vertical[j] != null && !vertical[j].equals(contra1)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+                for (int j = i + 1; j < 10; j++) {
+                    if (vertical[j] != null && !vertical[j].equals(contra1)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+
+                if (numSeguidos == 4) {
+                    if(carta.equals("CORAZON13") || carta.equals("PICA13")){
+                        bloqueo=true;
+                        matrizBotones[i][columna].setPosesion(posesion+3);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }else{
+                        bloqueo=true;
+                        matrizBotones[i][columna].setPosesion(posesion);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }
+                }
+            }
+          
+        }
+   }
+      private void secuenciaDiagonalIzquierdaDerechaBloqueo(int fila, int columna,String carta,JButton but) {
+        if (fila < 0 || fila >= 10 || columna < 0 || columna >= 10) {
+            return;
+        }
+        String contra = "EQUIPO 1"; 
+        String contra1 = "EQUIPO 1"; 
+        if(posesion.equals("EQUIPO 1")){
+            contra="EQUIPO 2";
+            contra1="EQUIPO 3";
+        }else if(posesion.equals("EQUIPO 2")){
+            contra="EQUIPO 1";
+            contra1="EQUIPO 3";
+        }else if(posesion.equals("EQUIPO 3")){
+            contra="EQUIPO 1";
+            contra1="EQUIPO 2";
+        }
+        if (carta.equals("CORAZON13") || carta.equals("PICA13") || carta.equals("DIAMANTE14") || carta.equals("TREBOL14")) {
+            String[] diagonal = new String[10]; 
+            int minIndex = Math.min(fila, columna); 
+            fila -= minIndex;
+            columna -= minIndex;
+            for (int i = 0; i < 10 && fila + i < 10 && columna + i < 10; i++) {
+                diagonal[i] = matrizBotones[fila + i][columna + i].getPosesion();
+            }
+            for (int i = 0; i < 10; i++) {
+                int numSeguidos = 0;
+                for (int j = i; j >= 0; j--) {
+                    if (diagonal[j] != null && !diagonal[j].equals(contra)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+                for (int j = i + 1; j < 10; j++) {
+                    if (diagonal[j] != null && !diagonal[j].equals(contra)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+
+                if (numSeguidos == 4) {
+                    if(carta.equals("CORAZON13") || carta.equals("PICA13")){
+                        bloqueo=true;
+                        matrizBotones[fila][columna].setPosesion(posesion+3);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }else{
+                        bloqueo=true;
+                        matrizBotones[fila][columna].setPosesion(posesion);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }
+                }
+            }
+
+            for (int i = 0; i < 10; i++) {
+                int numSeguidos = 0;
+                for (int j = i; j >= 0; j--) {
+                    if (diagonal[j] != null && !diagonal[j].equals(contra1)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+                for (int j = i + 1; j < 10; j++) {
+                    if (diagonal[j] != null && !diagonal[j].equals(contra1)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+
+                if (numSeguidos == 4) {
+                    if(carta.equals("CORAZON13") || carta.equals("PICA13")){
+                        bloqueo=true;
+                        matrizBotones[fila][columna].setPosesion(posesion+3);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }else{
+                        bloqueo=true;
+                        matrizBotones[fila][columna].setPosesion(posesion);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }
+                }
+            }
+        }
+    }
+      private void secuenciaDiagonalDerechaIzquierdaBloqueo(int fila, int columna,String carta,JButton but) {
+        if (fila < 0 || fila >= 10 || columna < 0 || columna >= 10) {
+            return;
+        }
+        String contra = "EQUIPO 1"; 
+        String contra1 = "EQUIPO 1"; 
+        if(posesion.equals("EQUIPO 1")){
+            contra="EQUIPO 2";
+            contra1="EQUIPO 3";
+        }else if(posesion.equals("EQUIPO 2")){
+            contra="EQUIPO 1";
+            contra1="EQUIPO 3";
+        }else if(posesion.equals("EQUIPO 3")){
+            contra="EQUIPO 1";
+            contra1="EQUIPO 2";
+        }
+        if (carta.equals("CORAZON13") || carta.equals("PICA13") || carta.equals("DIAMANTE14") || carta.equals("TREBOL14")) {
+            String[] diagonal = new String[10]; 
+            int minIndex = Math.min(fila, 9 - columna); 
+            fila -= minIndex;
+            columna += minIndex;
+            for (int i = 0; i < 10 && fila + i < 10 && columna - i >= 0; i++) {
+                diagonal[i] = matrizBotones[fila + i][columna - i].getPosesion();
+            }
+            for (int i = 0; i < 10; i++) {
+                int numSeguidos = 0;
+                for (int j = i; j >= 0; j--) {
+                    if (diagonal[j] != null && !diagonal[j].equals(contra)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+                for (int j = i + 1; j < 10; j++) {
+                    if (diagonal[j] != null && !diagonal[j].equals(contra)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+
+                if (numSeguidos == 4) {
+                    if(carta.equals("CORAZON13") || carta.equals("PICA13")){
+                        bloqueo=true;
+                        matrizBotones[fila][columna].setPosesion(posesion+3);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }else{
+                        bloqueo=true;
+                        matrizBotones[fila][columna].setPosesion(posesion);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }
+                }
+            }
+
+            for (int i = 0; i < 10; i++) {
+                int numSeguidos = 0;
+                for (int j = i; j >= 0; j--) {
+                    if (diagonal[j] != null && !diagonal[j].equals(contra1)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+                for (int j = i + 1; j < 10; j++) {
+                    if (diagonal[j] != null && !diagonal[j].equals(contra1)) {
+                        break; 
+                    }
+                    numSeguidos++;
+                }
+
+                if (numSeguidos == 4) {
+                   if(carta.equals("CORAZON13") || carta.equals("PICA13")){
+                         bloqueo=true;
+                        matrizBotones[fila][columna].setPosesion(posesion+3);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }else{
+                         bloqueo=true;
+                        matrizBotones[fila][columna].setPosesion(posesion);
+                        System.out.println("siiiiii");
+                        but.setIcon(call_png_fichas.obtenerFicha(fichaActual));
+                        System.out.println("siiiiiiiiiiii");
+                    }
+                }
+            }
+        }
+    } 
 }
