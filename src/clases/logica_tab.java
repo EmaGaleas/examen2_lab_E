@@ -27,7 +27,7 @@ import javax.swing.SwingUtilities;
 
 
 public class logica_tab {
-     public JButton[][] matrizButtonsUI;//ACCEDE A LOS BOTONES
+    public JButton[][] matrizButtonsUI;//ACCEDE A LOS BOTONES
     public cartas[][] matrizBotones; //de JButton a Pieza por valores
     private call_png_baraja baraja; 
     public int s=1;
@@ -94,7 +94,7 @@ public class logica_tab {
             }
         }
     }
-    private void secuenciaHorizontal(int fila, int columna) {
+    private void secuenciaHorizontal(int fila, int columna,String carta) {
         if (fila < 0 || fila >= 10 || columna < 0 || columna >= 10) {
             System.out.println("...");
             return;
@@ -116,6 +116,47 @@ public class logica_tab {
                     numSeguidos++;
                 } else {
                     numSeguidos = 0; 
+                }
+                 if(numSeguidos==4 && carta.equals("DIAMANTE14") || carta.equals("TREBOL14")){
+                      if(posesion.equals("EQUIPO 1")){
+                        secuencia1++;
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+                        for (int j = 0; j < 5; j++) {
+                            matrizBotones[fila][i - j].setPosesion("EQUIPO1");
+                            String tipo = matrizBotones[fila][i - j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha(tipo));
+                            panel.add(label);
+                        }
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 1 ha hecho UNA SECUENCIA HORIZONTAL", JOptionPane.INFORMATION_MESSAGE);break; 
+
+                    }else if(posesion.equals("EQUIPO 2")){
+                        secuencia2++;
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+                        for (int j = 0; j < 5; j++) {
+                            matrizBotones[fila][i - j].setPosesion("EQUIPO2");
+                            String tipo = matrizBotones[fila][i - j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha(tipo));
+                            panel.add(label);
+                        }
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 2 ha hecho UNA SECUENCIA HORIZONTAL", JOptionPane.INFORMATION_MESSAGE);break; 
+
+                    }else if(posesion.equals("EQUIPO 3")){
+                        secuencia3++;
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+                        for (int j = 0; j < 5; j++) {
+                            matrizBotones[fila][i - j].setPosesion("EQUIPO3");
+                            String tipo = matrizBotones[fila][i - j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha(tipo));
+                            panel.add(label);
+                        }
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 3 ha hecho UNA SECUENCIA HORIZONTAL", JOptionPane.INFORMATION_MESSAGE);break; 
+                    }
                 }
                 if (numSeguidos == 5) {
                     if(posesion.equals("EQUIPO 1")){
@@ -157,6 +198,7 @@ public class logica_tab {
                         }
                         JOptionPane.showMessageDialog(null, panel, "EQUIPO 3 ha hecho UNA SECUENCIA HORIZONTAL", JOptionPane.INFORMATION_MESSAGE);break; 
                     }
+                    
                 }
             }
         } else {
@@ -164,7 +206,7 @@ public class logica_tab {
         }
     }
 
-   private void secuenciaVertical(int columna){
+   private void secuenciaVertical(int columna,String carta){
         int numSeguidos=0;
         String valorAnterior = "";
         boolean secuenciaFormada = false;
@@ -186,6 +228,7 @@ public class logica_tab {
                 valorAnterior = valorActual;
                 secuenciaFormada = false;
             }
+            
             if(numSeguidos==5){
                 secuenciaFormada = true;
                 if(posesion.equals("EQUIPO 1")){
@@ -225,11 +268,50 @@ public class logica_tab {
                         }
                     JOptionPane.showMessageDialog(null, panel, "EQUIPO 3 ha hecho UNA SECUENCIA VERTICAL", JOptionPane.INFORMATION_MESSAGE);
                 }
-            }
+            }else if(numSeguidos==4 && (carta.equals("DIAMANTE14") || carta.equals("TREBOL14"))){
+                secuenciaFormada = true;
+                if(posesion.equals("EQUIPO 1")){
+                    secuencia1++;
+                    JPanel panel = new JPanel();
+                    panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+                    for (int j = i; j > i - 5; j--) {
+                            matrizBotones[j][columna].setPosesion("EQUIPO1.");
+                            String tipo = matrizBotones[j][columna].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
+                        }
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 1 ha hecho UNA SECUENCIA VERTICAL", JOptionPane.INFORMATION_MESSAGE);
+                }else if(posesion.equals("EQUIPO 2")){
+                    secuencia2++;
+                    JPanel panel = new JPanel();
+                    panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+                    for (int j = i; j > i - 5; j--) {
+                            matrizBotones[j][columna].setPosesion("EQUIPO2.");
+                            String tipo = matrizBotones[j][columna].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
+                        }
+                    JOptionPane.showMessageDialog(null, panel, "EQUIPO 2 ha hecho UNA SECUENCIA VERTICAL", JOptionPane.INFORMATION_MESSAGE);
+                }else if(posesion.equals("EQUIPO 3")){
+                    secuencia3++;
+                    JPanel panel = new JPanel();
+                    panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+                    for (int j = i; j > i - 5; j--) {
+                            matrizBotones[j][columna].setPosesion("EQUIPO3.");
+                            String tipo = matrizBotones[j][columna].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
+                        }
+                    JOptionPane.showMessageDialog(null, panel, "EQUIPO 3 ha hecho UNA SECUENCIA VERTICAL", JOptionPane.INFORMATION_MESSAGE);
+                }
+             }
         }
    }
   
-    private void obtenerDiagonalIzquierdaDerecha(int fila, int columna) {
+    private void obtenerDiagonalIzquierdaDerecha(int fila, int columna,String carta) {
         if (fila < 0 || fila >= 10 || columna < 0 || columna >= 10) {
             System.out.println("NOOO LA DIAGONAL DERECHA IZQUIERDA");
             return;
@@ -296,6 +378,47 @@ public class logica_tab {
                         JOptionPane.showMessageDialog(null, panel, "EQUIPO 3 ha hecho UNA SECUENCIA DIAGONAL", JOptionPane.INFORMATION_MESSAGE);
                         break; 
                     }
+                }else if(numSeguidos==4 && (carta.equals("DIAMANTE14") || carta.equals("TREBOL14"))){
+                    if(posesion.equals("EQUIPO 1")){
+                        secuencia1++;
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+                        for (int j = 0; j < 5; j++) {
+                            matrizBotones[fila + i - j][columna + i - j].setPosesion("EQUIPO1,");
+                            String tipo = matrizBotones[fila + i - j][columna + i - j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
+                        }
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 1 ha hecho UNA SECUENCIA DIAGONAL", JOptionPane.INFORMATION_MESSAGE);
+                        break; 
+                    }else if(posesion.equals("EQUIPO 2")){
+                        secuencia2++;
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+                        for (int j = 0; j < 5; j++) {
+                            matrizBotones[fila + i - j][columna + i - j].setPosesion("EQUIPO2,");
+                            String tipo = matrizBotones[fila + i - j][columna + i - j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
+                        }
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 2 ha hecho UNA SECUENCIA DIAGONAL", JOptionPane.INFORMATION_MESSAGE);
+                        break;  
+                    }else if(posesion.equals("EQUIPO 3")){
+                        secuencia3++;
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+                        for (int j = 0; j < 5; j++) {
+                            matrizBotones[fila + i - j][columna + i - j].setPosesion("EQUIPO3,");
+                            String tipo = matrizBotones[fila + i - j][columna + i - j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
+                        }
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 3 ha hecho UNA SECUENCIA DIAGONAL", JOptionPane.INFORMATION_MESSAGE);
+                        break; 
+                    }
                 }
             }
         } else {
@@ -303,7 +426,7 @@ public class logica_tab {
         }
     }
 
-    private void obtenerDiagonalDerechaIzquierda(int fila, int columna) {
+    private void obtenerDiagonalDerechaIzquierda(int fila, int columna, String carta) {
         if (fila < 0 || fila >= 10 || columna < 0 || columna >= 10) {
             System.out.println("...");
             return;
@@ -329,6 +452,47 @@ public class logica_tab {
                     numSeguidos = 0; 
                 }
                 if (numSeguidos == 5) {
+                    if(posesion.equals("EQUIPO 1")){
+                        secuencia1++;
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+                        for (int j = 0; j < 5; j++) {
+                            matrizBotones[fila + i - j][columna - i + j].setPosesion("EQUIPO1+");
+                            String tipo = matrizBotones[fila + i - j][columna - i + j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
+                        }
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 1 ha hecho UNA SECUENCIA DIAGONAL", JOptionPane.INFORMATION_MESSAGE);
+                        break;  
+                    }else if(posesion.equals("EQUIPO 2")){
+                        secuencia2++;
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+                        for (int j = 0; j < 5; j++) {
+                            matrizBotones[fila + i - j][columna - i + j].setPosesion("EQUIPO2+");
+                            String tipo = matrizBotones[fila + i - j][columna - i + j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
+                        }
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 2 ha hecho UNA SECUENCIA DIAGONAL", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    }else if(posesion.equals("EQUIPO 3")){
+                        secuencia3++;
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+                        for (int j = 0; j < 5; j++) {
+                            matrizBotones[fila + i - j][columna - i + j].setPosesion("EQUIPO3+");
+                            String tipo = matrizBotones[fila + i - j][columna - i + j].getTipo();
+                            JLabel label = new JLabel();
+                            label.setIcon(call_png_baraja.obtenerFicha( tipo));
+                            panel.add(label);
+                        }
+                        JOptionPane.showMessageDialog(null, panel, "EQUIPO 3 ha hecho UNA SECUENCIA DIAGONAL", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    }
+                }else if(numSeguidos==4 && (carta.equals("DIAMANTE14") || carta.equals("TREBOL14"))){
                     if(posesion.equals("EQUIPO 1")){
                         secuencia1++;
                         JPanel panel = new JPanel();
@@ -445,74 +609,158 @@ public class logica_tab {
                 }
             }
             
-        }else if((elegida.equals("DIAMANTE14") || elegida.equals("TREBOL14")) && !carta.getTipo().equals("ESQUINA") && carta.getPosesion().equals("NADIE") ){
-            boolean b=false;
-            if(posesion.equals("EQUIPO 1")){
-                if(carta.getPosesion().equals("EQUIPO 2") || carta.getPosesion().equals("EQUIPO 3") ){
-                    carta.setPosesion("NADIE");
-                    button.setIcon(null);
+        }else if((elegida.equals("DIAMANTE14") || elegida.equals("TREBOL14")) && !carta.getTipo().equals("ESQUINA") && carta.getPosesion().equals("NADIE")) {
+            secuenciaHorizontal(fila, columa, tipo);
+            secuenciaVertical(columa, tipo);
+            obtenerDiagonalIzquierdaDerecha(fila, columa, tipo);
+            obtenerDiagonalDerechaIzquierda(fila, columa, tipo);
+
+            secuenciaHorizontalBloqueo(fila, columa, tipo, button);
+            secuenciaVerticalBloqueo(fila, columa, tipo, button);
+            secuenciaDiagonalDerechaIzquierdaBloqueo(fila, columa, tipo, button);
+            secuenciaDiagonalIzquierdaDerechaBloqueo(fila, columa, tipo, button);
+
+            if (carta.getPosesion().equals("NADIE")) {
+                if ((posesion.equals("EQUIPO 1") || posesion.equals("EQUIPO 2") || posesion.equals("EQUIPO 3")) && bloqueo) {
                     cambioValido = true;
-                   
-                 //   elegida = "a";
-                 //
-                    secuenciaHorizontalBloqueo(fila,  columa,tipo,button);
-                    secuenciaVerticalBloqueo( fila, columa,tipo,button);
-                    secuenciaDiagonalDerechaIzquierdaBloqueo(fila,  columa, tipo, button);
-                    secuenciaDiagonalIzquierdaDerechaBloqueo(fila,  columa, tipo, button);
-                    if(bloqueo){
-                        cambioValido = true;
-                        bloqueo=false;
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Bloqueo no valido", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
-                    }
-                   //     elegida = "a";
-                }
-            }else if(posesion.equals("EQUIPO 3")){
-                if(carta.getPosesion().equals("EQUIPO 1") || carta.getPosesion().equals("EQUIPO 2") ){
-                    carta.setPosesion("NADIE");
-                    button.setIcon(null);
-                    cambioValido = true;
-               //     elegida = "a";
-                }else if(carta.getPosesion().equals("NADIE") ){
-                    secuenciaHorizontalBloqueo(fila,  columa,tipo,button);
-                    secuenciaVerticalBloqueo( fila, columa,tipo,button);
-                    secuenciaDiagonalDerechaIzquierdaBloqueo(fila,  columa, tipo, button);
-                    secuenciaDiagonalIzquierdaDerechaBloqueo(fila,  columa, tipo, button);
-                    if(bloqueo){
-                        cambioValido = true;
-                        bloqueo=false;
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Bloqueo no valido", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
-                    }
-               //     elegida = "a";
-                }
-            }else if(posesion.equals("EQUIPO 2")){
-                if(carta.getPosesion().equals("EQUIPO 1") || carta.getPosesion().equals("EQUIPO 3") ){
-                    carta.setPosesion("NADIE");
-                    button.setIcon(null);
-                    cambioValido = true;
-                      //  elegida = "a";
-                }else if(carta.getPosesion().equals("NADIE") ){
-                    secuenciaHorizontalBloqueo(fila,  columa,tipo,button);
-                    secuenciaVerticalBloqueo( fila, columa,tipo,button);
-                    secuenciaDiagonalDerechaIzquierdaBloqueo(fila,  columa, tipo, button);
-                    secuenciaDiagonalIzquierdaDerechaBloqueo(fila,  columa, tipo, button);
-                    if(bloqueo){
-                        cambioValido = true;
-                        bloqueo=false;
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Bloqueo no valido", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
-                    }
-               //      elegida = "a";
+                    bloqueo = false;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Bloqueo no valido", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
                 }
             }
-        }else if(carta.getPosesion().equals("NADIE") && !carta.getTipo().equals("ESQUINA")  && elegida.equals(carta.getTipo())) {//&& elegida.equals(carta.getTipo()
+             try{
+                
+                if (secuencia1 == 2) {
+                    if(r.getCantidadJ()==2){
+                        String smsG="GANASTE: TURNO 1 {"+t1+"} Victoria sobre  TURNO 2 {"+t2+"}";
+                        r.agregarReportesTodos(t1, smsG);
+                        JOptionPane.showMessageDialog(null, smsG, "Informacion FINAL", JOptionPane.WARNING_MESSAGE);
+                        String smsV="PERDISTE: TURNO 1 {"+t1+"} Victoria sobre TURNO 2 {"+t2+"}";
+                        r.agregarReportesTodos(t2, smsV);
+                        
+                    }else if(r.getCantidadJ()==3){
+                        String smsG="GANASTE: TURNO 1 {"+t1+"} Victoria sobre  TURNO 2 {"+t2+"} y TURNO 3{"+t3+"}";
+                        r.agregarReportesTodos(t1, smsG);
+                        JOptionPane.showMessageDialog(null, smsG, "Informacion FINAL", JOptionPane.WARNING_MESSAGE);
+                        String smsV="PERDISTE: TURNO 1 {"+t1+"} Victoria sobre  TURNO 2 {"+t2+"} y TURNO 3{"+t3+"}";
+                        r.agregarReportesTodos(t2, smsV);
+                        r.agregarReportesTodos(t3, smsV);
+
+                    }else if(r.getCantidadJ()== 4 || r.getCantidadJ()==8){
+                        String smsG="GANASTE: EQUIPO 1 {"+miembros1+"} Victoria sobre EQUIPO 2 {"+miembros2+"}";
+                        String[] miembros = miembros1.split("-");
+                        JOptionPane.showMessageDialog(null, smsG, "Informacion FINAL", JOptionPane.WARNING_MESSAGE);
+                        for (String nombre : miembros) {
+                            r.agregarReportesTodos(nombre, smsG);
+                        }
+                        String smsV="PERDISTE: EQUIPO 1 {"+miembros1+"} Victoria sobre EQUIPO 2 {"+miembros2+"}";
+                        String[] miembro2 = miembros2.split("-");
+                        for (String nombre2 : miembro2) {
+                            r.agregarReportesTodos(nombre2, smsV);
+                        }
+                    }else if(r.getCantidadJ()==6){
+                        String smsG="GANASTE: EQUIPO 1 {"+miembros1+"} Victoria sobre EQUIPO 2 {"+miembros2+"} y EQUIPO 3{"+miembros3+"}";
+                        String[] miembros = miembros1.split("-");
+                        JOptionPane.showMessageDialog(null, smsG, "Informacion FINAL", JOptionPane.WARNING_MESSAGE);
+                        for (String nombre : miembros) {
+                            r.agregarReportesTodos(nombre, smsG);
+                        }
+                        String smsV="PERDISTE: EQUIPO 1 {"+miembros1+"} Victoria sobre EQUIPO 2 {"+miembros2+"} y EQUIPO 3{"+miembros3+"}";
+                        String[] miembro2 = miembros2.split("-");
+                        for (String nombre2 : miembro2) {
+                            r.agregarReportesTodos(nombre2, smsV);
+                        }
+                        String[] miembro3 = miembros3.split("-");
+                        for (String nombre3 : miembro3) {
+                            r.agregarReportesTodos(nombre3, smsV);
+                        }
+                    }
+                        
+                } else if (secuencia2 == 2) {
+                    if(r.getCantidadJ()==2){
+                        String smsG="GANASTE: TURNO 2 {"+t2+"} Victoria sobre  TURNO 1 {"+t1+"}";
+                        r.agregarReportesTodos(t2, smsG);
+                        JOptionPane.showMessageDialog(null, smsG, "Informacion FINAL", JOptionPane.WARNING_MESSAGE);
+                        String smsV="PERDISTE: TURNO 2 {"+t2+"} Victoria sobre TURNO 1 {"+t1+"}";
+                        r.agregarReportesTodos(t1, smsV);
+                        
+                    }else if(r.getCantidadJ()==3){
+                        String smsG="GANASTE: TURNO 2 {"+t2+"} Victoria sobre  TURNO 1 {"+t1+"} y TURNO 3{"+t3+"}";
+                        r.agregarReportesTodos(t2, smsG);
+                        JOptionPane.showMessageDialog(null, smsG, "Informacion FINAL", JOptionPane.WARNING_MESSAGE);
+                        String smsV="PERDISTE: TURNO 2 {"+t2+"} Victoria sobre  TURNO 1 {"+t1+"} y TURNO 3{"+t3+"}";
+                        r.agregarReportesTodos(t1, smsV);
+                        r.agregarReportesTodos(t3, smsV);
+
+                    }else if(r.getCantidadJ()== 4 || r.getCantidadJ()==8){
+                        String smsG="GANASTE: EQUIPO 2 {"+miembros2+"} Victoria sobre EQUIPO 1 {"+miembros1+"}";
+                        String[] miembros = miembros2.split("-");
+                        JOptionPane.showMessageDialog(null, smsG, "Informacion FINAL", JOptionPane.WARNING_MESSAGE);
+                        for (String nombre : miembros) {
+                            r.agregarReportesTodos(nombre, smsG);
+                        }
+                        String smsV="PERDISTE: EQUIPO 2 {"+miembros2+"} Victoria sobre EQUIPO 1 {"+miembros1+"}";
+                        String[] miembro2 = miembros1.split("-");
+                        for (String nombre2 : miembro2) {
+                            r.agregarReportesTodos(nombre2, smsV);
+                        }
+                    }else if(r.getCantidadJ()==6){
+                        String smsG="GANASTE: EQUIPO 2 {"+miembros2+"} Victoria sobre EQUIPO 1 {"+miembros1+"} y EQUIPO 3{"+miembros3+"}";
+                        String[] miembros = miembros2.split("-");
+                        JOptionPane.showMessageDialog(null, smsG, "Informacion FINAL", JOptionPane.WARNING_MESSAGE);
+                        for (String nombre : miembros) {
+                            r.agregarReportesTodos(nombre, smsG);
+                        }
+                        String smsV="PERDISTE: EQUIPO 2 {"+miembros2+"} Victoria sobre EQUIPO 1 {"+miembros1+"} y EQUIPO 3{"+miembros3+"}";
+                        String[] miembro2 = miembros1.split("-");
+                        for (String nombre2 : miembro2) {
+                            r.agregarReportesTodos(nombre2, smsV);
+                        }
+                        String[] miembro3 = miembros3.split("-");
+                        for (String nombre3 : miembro3) {
+                            r.agregarReportesTodos(nombre3, smsV);
+                        }
+                    }
+                } else if (secuencia3 == 2) {
+                     if(r.getCantidadJ()==3){
+                        String smsG="GANASTE: TURNO 3 {"+t3+"} Victoria sobre  TURNO 1 {"+t1+"} y TURNO 2{"+t2+"}";
+                        r.agregarReportesTodos(t3, smsG);
+                        JOptionPane.showMessageDialog(null, smsG, "Informacion FINAL", JOptionPane.WARNING_MESSAGE);
+                        String smsV="PERDISTE: TURNO 3 {"+t3+"} Victoria sobre  TURNO 1 {"+t1+"} y TURNO 2{"+t2+"}";
+                        r.agregarReportesTodos(t1, smsV);
+                        r.agregarReportesTodos(t2, smsV);
+
+                    }else if(r.getCantidadJ()==6){
+                        String smsG="GANASTE: EQUIPO 3 {"+miembros3+"} Victoria sobre EQUIPO 1 {"+miembros1+"} y EQUIPO 2{"+miembros2+"}";
+                        String[] miembros = miembros3.split("-");
+                        JOptionPane.showMessageDialog(null, smsG, "Informacion FINAL", JOptionPane.WARNING_MESSAGE);
+                        for (String nombre : miembros) {
+                            r.agregarReportesTodos(nombre, smsG);
+                        }
+                        String smsV="PERDISTE: EQUIPO 3 {"+miembros3+"} Victoria sobre EQUIPO 1 {"+miembros1+"} y EQUIPO 2{"+miembros2+"}";
+                        String[] miembro2 = miembros1.split("-");
+                        for (String nombre2 : miembro2) {
+                            r.agregarReportesTodos(nombre2, smsV);
+                        }
+                        String[] miembro3 = miembros2.split("-");
+                        for (String nombre3 : miembro3) {
+                            r.agregarReportesTodos(nombre3, smsV);
+                        }
+                    }
+                } else {
+                      
+                    }
+                
+            }catch(IOException e){
+                
+            }
+        }else if(carta.getPosesion().equals("NADIE") && !carta.getTipo().equals("ESQUINA") && elegida.equals(carta.getTipo()) ) {//&& elegida.equals(carta.getTipo())
             button.setIcon(call_png_fichas.obtenerFicha(fichaActual));
             carta.setPosesion(posesion);
-            secuenciaHorizontal( fila,columa);
-            secuenciaVertical( columa);
-            obtenerDiagonalIzquierdaDerecha( fila, columa) ;
-            obtenerDiagonalDerechaIzquierda( fila,columa) ;
+            secuenciaHorizontal( fila,columa,tipo);
+            secuenciaVertical( columa,tipo);
+            obtenerDiagonalIzquierdaDerecha( fila, columa,tipo);
+            obtenerDiagonalDerechaIzquierda( fila,columa,tipo);
             try{
                 
                 if (secuencia1 == 2) {
@@ -647,8 +895,8 @@ public class logica_tab {
                 JOptionPane.showMessageDialog(null, "NO COINCIDE CON TU ELECCION", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
               //  mostrarInformacionPieza(carta);
             }
-        }  
-        
+         
+        }
     }
 
     public synchronized boolean seRealizoAccion() {
@@ -1196,7 +1444,7 @@ public class logica_tab {
     }public void setFichaActual(String fichaActual) {
         this.fichaActual = fichaActual;
     }    
-     private void secuenciaHorizontalBloqueo(int fila, int columna,String carta,JButton but) {
+    private void secuenciaHorizontalBloqueo(int fila, int columna,String carta,JButton but) {
         if (fila < 0 || fila >= 10 || columna < 0 || columna >= 10) {
          // System.out.println("...");
           return;

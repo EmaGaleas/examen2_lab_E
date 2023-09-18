@@ -46,7 +46,7 @@ public class Registro extends javax.swing.JFrame {
         txt_confirmar_contra = new javax.swing.JPasswordField();
         f_registro = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setOpaque(false);

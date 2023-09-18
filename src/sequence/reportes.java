@@ -37,7 +37,7 @@ public class reportes extends javax.swing.JFrame {
         tbn_inicio = new javax.swing.JButton();
         fondo_r = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));

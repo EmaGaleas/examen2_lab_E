@@ -43,7 +43,7 @@ public class Log_in extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         f_login = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setOpaque(false);

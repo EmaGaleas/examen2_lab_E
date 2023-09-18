@@ -33,7 +33,7 @@ public class confi extends javax.swing.JFrame {
         btn_color = new javax.swing.JButton();
         fondo_c = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jPanel1.setOpaque(false);
 

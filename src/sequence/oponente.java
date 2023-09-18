@@ -143,7 +143,7 @@ public class oponente extends javax.swing.JFrame {
         equipo = new javax.swing.JComboBox<>();
         fondo_op = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setOpaque(false);
