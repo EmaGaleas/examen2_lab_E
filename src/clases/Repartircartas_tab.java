@@ -1,7 +1,9 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import sequence.tablero;
 
 public class Repartircartas_tab {
 
@@ -10,11 +12,22 @@ public class Repartircartas_tab {
     private int contdiamanete = 0, conttrebol = 0;
     public static final int numcarts = 104;
     int cont = 0;
-
+    boolean yanohaycart=false;
+    tablero obj;
+    List<String> nuevomazo;
+    
+    
+    
     public Repartircartas_tab() {
-
+        
         this.carta = new Cartas_conf[numcarts];
+       
         this.posionsigcart = 0;
+        nuevomazo = new ArrayList<>();
+        if(yanohaycart==true){
+        obj.getNuevomazo();   
+        nuevomazo =obj.getNuevomazo();
+        }
         crearbarajear();
         barajar();
 
@@ -163,7 +176,8 @@ public class Repartircartas_tab {
     public void mostrarbaraja() {
         if (cartasDisponible() == 0) {
             System.out.println("ya no quedan mas cartas");
-
+            yanohaycart=true;
+            
         } else {
             for (int i = posionsigcart; i < carta.length; i++) {
                 System.out.println(i + "" + carta[i]);

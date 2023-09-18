@@ -42,13 +42,13 @@ public class tablero extends javax.swing.JFrame {
     private int segundos = 0, contador = 0;
     Dimension CoordjSelect = null;
     String[] botonescarta;
-    boolean ordenarcartas = false, nuevoorden = false, reinicio = false, descartarcarta = false, yadescarto = false, contieneCero = true;
+    boolean ordenarcartas = false, nuevoorden = false, reinicio = false, descartarcarta = false, yadescarto = false, contieneCero = true,pusocarta=false;
     String cartamover = "", cartadescartar = "", cartequitartab = "";
-    int posicionusada = 0;
+    int posicionusada = 0,turnojugadores=0;
     int cont = 0, entroya = 0;
     private List<String> ordenActualCartas;
-    private List<String> nuevomazo;
-    String ult1="",ult2="",ult3="",ult4="",ult5="",ult6="",ult7="",ult8="";
+    List<String> nuevomazo;
+    String ult1 = "a", ult2 = "a", ult3 = "a", ult4 = "a", ult5 = "a", ult6 = "a", ult7 = "a", ult8 = "a";
 
     public tablero(String nombre) {
         initComponents();
@@ -69,6 +69,26 @@ public class tablero extends javax.swing.JFrame {
                 segundos++;
                 actLabelTIME();
                 if (segundos >= 120) {
+                    if (lt.turno == 1) {
+                        ult1 = lt.elegida;
+                        System.out.println("ult1"+ult1);
+                    } else if (lt.turno == 2) {
+                        ult2 = lt.elegida;
+                        System.out.println("ult2"+ult2);
+                    } else if (lt.turno == 3) {
+                        ult3 = lt.elegida;
+                    } else if (lt.turno == 4) {
+                        ult4 = lt.elegida;
+                    } else if (lt.turno == 5) {
+                        ult5 = lt.elegida;
+                    } else if (lt.turno == 6) {
+                        ult6 = lt.elegida;
+                    } else if (lt.turno == 7) {
+                        ult7 = lt.elegida;
+                    } else if (lt.turno == 8) {
+                        ult8 = lt.elegida;
+                    }
+
                     lt.elegida = "a";
                     nuevoorden = false;
                     ordenActualCartas.clear();
@@ -87,29 +107,29 @@ public class tablero extends javax.swing.JFrame {
         tij = new Timer(retraso, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (lt.seRealizoAccion() && (lt.secuencia1!=2 || lt.secuencia2!=2 || lt.secuencia3!=2)) {
+                if (lt.seRealizoAccion() && (lt.secuencia1 != 2 || lt.secuencia2 != 2 || lt.secuencia3 != 2)) {
                     paro();
-                    System.out.println("lt.elegida"+lt.elegida);
-                    nuevomazo.add(lt.elegida);
-                    System.out.println("nuevomazo" + nuevomazo);
-                    if(lt.turno==1){
-                        ult1=lt.elegida;
-                    }else if(lt.turno==2){
-                        ult2=lt.elegida;
-                    }else if(lt.turno==3){
-                        ult3=lt.elegida;
-                    }else if(lt.turno==4){
-                        ult4=lt.elegida;
-                    }else if(lt.turno==5){
-                        ult5=lt.elegida;
-                    }else if(lt.turno==6){
-                        ult6=lt.elegida;
-                    }else if(lt.turno==7){
-                        ult7=lt.elegida;
-                    }else if(lt.turno==8){
-                        ult8=lt.elegida;
+                   
+                    if (turnojugadores == 1) {
+                        ult1 = lt.elegida;
+                        System.out.println("ult1"+ult1);
+                    } else if (turnojugadores== 2) {
+                        ult2 = lt.elegida;
+                        
+                    } else if (turnojugadores == 3) {
+                        ult3 = lt.elegida;
+                    } else if (turnojugadores == 4) {
+                        ult4 = lt.elegida;
+                    } else if (turnojugadores == 5) {
+                        ult5 = lt.elegida;
+                    } else if (turnojugadores== 6) {
+                        ult6 = lt.elegida;
+                    } else if (turnojugadores== 7) {
+                        ult7 = lt.elegida;
+                    } else if (turnojugadores == 8) {
+                        ult8 = lt.elegida;
                     }
-                    
+                    pusocarta=false;
                     lt.elegida = "a";
                     tij.stop();
                     tij.start();
@@ -120,36 +140,36 @@ public class tablero extends javax.swing.JFrame {
                 }
             }
         });
-         
+
         tij.start();
 
     }
 
     private void actLabelTIME() {
-        if(lt.secuencia1==2 || lt.secuencia2==2 || lt.secuencia3==2){
+        if (lt.secuencia1 == 2 || lt.secuencia2 == 2 || lt.secuencia3 == 2) {
             timer.stop();
             tij.stop();
-            menu_p p=new menu_p();
+            menu_p p = new menu_p();
             p.setVisible(true);
             this.setVisible(false);
-        }else{
+        } else {
             int minutos = segundos / 60;
             int segundosRestantes = segundos % 60;
             String tiempoFormateado = String.format("%02d:%02d", minutos, segundosRestantes);
             time.setText(tiempoFormateado);
         }
-        
+
     }
 
     public void paro() {
-        if(lt.secuencia1==2 || lt.secuencia2==2 || lt.secuencia3==2){
+        if (lt.secuencia1 == 2 || lt.secuencia2 == 2 || lt.secuencia3 == 2) {
             timer.stop();
             tij.stop();
-            menu_p p=new menu_p();
+            menu_p p = new menu_p();
             p.setVisible(true);
             this.setVisible(false);
-       
-        }else{
+
+        } else {
             timer.stop();//para timer y turno
             JOptionPane.showMessageDialog(null, "Cambio de turno");//para timer y turno
             segundos = 0; //para timer y turno
@@ -159,15 +179,19 @@ public class tablero extends javax.swing.JFrame {
         }
     }
 
+    public List<String> getNuevomazo() {
+        return nuevomazo;
+    }
+
     private void finTIME() {
-        if(lt.secuencia1==2 || lt.secuencia2==2 || lt.secuencia3==2){
+        if (lt.secuencia1 == 2 || lt.secuencia2 == 2 || lt.secuencia3 == 2) {
             timer.stop();
             tij.stop();
-            menu_p p=new menu_p();
+            menu_p p = new menu_p();
             p.setVisible(true);
             this.setVisible(false);
-       
-        }else{
+
+        } else {
             JOptionPane.showMessageDialog(this, ":(\nSE TE ACABO EL TIEMPO\nCambio de turno", "Fin turno", JOptionPane.INFORMATION_MESSAGE);
             segundos = 0;
             actLabelTIME();
@@ -177,19 +201,18 @@ public class tablero extends javax.swing.JFrame {
     }
 
     public void actualizarLabelT() {
-        if(lt.secuencia1==2 || lt.secuencia2==2 || lt.secuencia3==2){
+        if (lt.secuencia1 == 2 || lt.secuencia2 == 2 || lt.secuencia3 == 2) {
             timer.stop();
             tij.stop();
-            menu_p p=new menu_p();
+            menu_p p = new menu_p();
             p.setVisible(true);
             this.setVisible(false);
-       
-        }else{
-           lt.cambiorturno();
+
+        } else {
+            lt.cambiorturno();
             String turnoString = lt.txtTurnoSting();
-            turno.setText("Turno de: " + turnoString); 
+            turno.setText("Turno de: " + turnoString);
         }
-        
 
     }
 
@@ -223,6 +246,52 @@ public class tablero extends javax.swing.JFrame {
 //
 //            }
 //        }
+        String cartaremplazar="y";
+        if (!ult1.equals("a")&&turnojugadores == 1) {
+            
+           cartaremplazar= ult1 ;
+            
+        } else if (!ult2.equals("a")&&turnojugadores == 2) {
+           cartaremplazar= ult2 ;
+        } else if (!ult3.equals("a")&&turnojugadores == 3) {
+            cartaremplazar=ult3;
+        } else if (!ult4.equals("a")&&turnojugadores == 4) {
+            cartaremplazar=ult4;
+        } else if (!ult5.equals("a")&&turnojugadores == 5) {
+            cartaremplazar=ult5 ;
+        } else if (!ult6.equals("a")&&turnojugadores == 6) {
+            cartaremplazar=ult6;
+        } else if (!ult7.equals("a")&&turnojugadores == 7) {
+            cartaremplazar=ult7 ;
+        } else if (!ult8.equals("a")&&turnojugadores == 8) {
+            cartaremplazar=ult8;
+        }
+        if(!cartaremplazar.equals("y")&&pusocarta==false){
+            pusocarta=true;
+        for (int i = 1; i < cartas.length; i++) {
+                        if (cartas[i].contains(cartaremplazar)) {
+                            indiceAEliminar = i;
+                            break; // Detengo el bucle cuando encuentro la carta
+                        }
+                    }
+
+                    // Verifica si se encontró el valor a eliminar
+                    if (indiceAEliminar != -1) {
+                        // Reemplaza el valor en el mismo índice con el nuevo valor
+                        nuevomazo.add(cartaremplazar);
+                        System.out.println("nuevomazo:" + nuevomazo);
+                        cartas[indiceAEliminar] = repart.siguienteCarta().getTipo() + repart.siguienteCarta().getValor();
+                        System.out.println("nueva carta" + cartas[indiceAEliminar]);
+                        indiceAEliminar = 0;
+                        yadescarto = true;
+                        JOptionPane.showMessageDialog(null, "Carta descartada");
+                        ordenActualCartas = new ArrayList<>(Arrays.asList(cartas));
+                        System.out.println("ULTIMADESCARTOCARTA" + ordenActualCartas);
+
+                    } else {
+                        System.out.println("El valor a eliminar no se encuentra en el array.");
+                    }
+        }
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS)); // Establece el layout vertical
         panel.add(Box.createRigidArea(new Dimension(15, 0)));
 
@@ -246,7 +315,7 @@ public class tablero extends javax.swing.JFrame {
                 }
 
             });
-                    
+
             String carat = (cartaIndex < cartas.length) ? cartas[cartaIndex + 1] : "No hay información disponible";
             String cartaSinGuion = carat.replace("-", "");
             boton.setIcon(call_png_baraja.obtenerFicha(cartaSinGuion));
@@ -1495,7 +1564,7 @@ public class tablero extends javax.swing.JFrame {
 
                 // System.out.println("" + obrg.getCantidadJ());
                 if (obrg.getCantidadJ() == 3) {
-
+                    turnojugadores=2;
                     if (darcart == 0) {
                         cartjg3 = "";
                         Cartas_conf[] cartas = repart.darcartas(6);
@@ -1550,7 +1619,7 @@ public class tablero extends javax.swing.JFrame {
                     }
                 }
                 if (obrg.getCantidadJ() == 4) {
-
+                    turnojugadores=2;
                     if (darcart == 0) {
                         cartjg3 = "";
                         Cartas_conf[] cartas = repart.darcartas(7);
@@ -1605,6 +1674,7 @@ public class tablero extends javax.swing.JFrame {
                     }
                 }
                 if (obrg.getCantidadJ() == 6) {
+                    turnojugadores=2;
                     if (darcart == 0) {
                         cartjg3 = "";
                         Cartas_conf[] cartas = repart.darcartas(5);
@@ -1657,6 +1727,7 @@ public class tablero extends javax.swing.JFrame {
                     }
                 }
                 if (obrg.getCantidadJ() == 8) {
+                    turnojugadores=2;
                     if (darcart == 0) {
                         cartjg3 = "";
                         Cartas_conf[] cartas = repart.darcartas(4);
@@ -1745,6 +1816,7 @@ public class tablero extends javax.swing.JFrame {
 
 //                System.out.println("" + obrg.getCantidadJ());
                 if (obrg.getCantidadJ() == 2) {
+                    turnojugadores=2;
                     if (darcart == 0) {
                         cartjg2 = "";
                         Cartas_conf[] cartas = repart.darcartas(7);
@@ -1798,6 +1870,7 @@ public class tablero extends javax.swing.JFrame {
                     }
                 }
                 if (obrg.getCantidadJ() == 3) {
+                    turnojugadores=3;
                     if (darcart == 0) {
                         cartjg2 = "";
                         Cartas_conf[] cartas = repart.darcartas(6);
@@ -1852,6 +1925,7 @@ public class tablero extends javax.swing.JFrame {
                     }
                 }
                 if (obrg.getCantidadJ() == 4) {
+                    turnojugadores=4;
                     if (darcart == 0) {
                         cartjg2 = "";
                         Cartas_conf[] cartas = repart.darcartas(7);
@@ -1905,6 +1979,7 @@ public class tablero extends javax.swing.JFrame {
                     }
                 }
                 if (obrg.getCantidadJ() == 6) {
+                    turnojugadores=6;
                     if (darcart == 0) {
                         cartjg2 = "";
                         Cartas_conf[] cartas = repart.darcartas(5);
@@ -1959,6 +2034,7 @@ public class tablero extends javax.swing.JFrame {
                     }
                 }
                 if (obrg.getCantidadJ() == 8) {
+                    turnojugadores=8;
                     if (darcart == 0) {
                         cartjg2 = "";
                         Cartas_conf[] cartas = repart.darcartas(4);
@@ -2026,7 +2102,7 @@ public class tablero extends javax.swing.JFrame {
 
     private void btn_verJ1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_verJ1MouseClicked
         //JUGADOR 1
-
+        turnojugadores=1;
         if (lt.txtTurnoSting().equals(nombre_J1.getText())) {
             try {
                 if (contjg1 == 0) {
@@ -2321,6 +2397,7 @@ public class tablero extends javax.swing.JFrame {
                     contjg4++;
                 }
                 if (obrg.getCantidadJ() == 4) {
+                    turnojugadores=3;
                     if (darcart == 0) {
                         cartjg4 = "";
                         Cartas_conf[] cartas = repart.darcartas(7);
@@ -2375,6 +2452,7 @@ public class tablero extends javax.swing.JFrame {
                     }
                 }
                 if (obrg.getCantidadJ() == 6) {
+                    turnojugadores=5;
                     if (darcart == 0) {
                         cartjg4 = "";
                         Cartas_conf[] cartas = repart.darcartas(5);
@@ -2429,6 +2507,7 @@ public class tablero extends javax.swing.JFrame {
                     }
                 }
                 if (obrg.getCantidadJ() == 8) {
+                    turnojugadores=7;
                     if (darcart == 0) {
                         cartjg4 = "";
                         Cartas_conf[] cartas = repart.darcartas(4);
@@ -2502,6 +2581,7 @@ public class tablero extends javax.swing.JFrame {
                     contjg5++;
                 }
                 if (obrg.getCantidadJ() == 6) {
+                    turnojugadores=3;
                     if (darcart == 0) {
                         cartg5 = "";
                         Cartas_conf[] cartas = repart.darcartas(5);
@@ -2554,6 +2634,7 @@ public class tablero extends javax.swing.JFrame {
                     }
                 }
                 if (obrg.getCantidadJ() == 8) {
+                    turnojugadores=3;
                     if (darcart == 0) {
                         cartg5 = "";
                         Cartas_conf[] cartas = repart.darcartas(4);
@@ -2624,6 +2705,7 @@ public class tablero extends javax.swing.JFrame {
                     contjg6++;
                 }
                 if (obrg.getCantidadJ() == 6) {
+                    turnojugadores=4;
                     if (darcart == 0) {
                         cartg6 = "";
                         Cartas_conf[] cartas = repart.darcartas(5);
@@ -2675,6 +2757,7 @@ public class tablero extends javax.swing.JFrame {
                     }
                 }
                 if (obrg.getCantidadJ() == 8) {
+                    turnojugadores=6;
                     if (darcart == 0) {
                         cartg6 = "";
                         Cartas_conf[] cartas = repart.darcartas(4);
@@ -2746,6 +2829,7 @@ public class tablero extends javax.swing.JFrame {
                     contjg7++;
                 }
                 if (obrg.getCantidadJ() == 8) {
+                    turnojugadores=5;
                     if (darcart == 0) {
                         cartg7 = "";
                         Cartas_conf[] cartas = repart.darcartas(4);
@@ -2817,6 +2901,7 @@ public class tablero extends javax.swing.JFrame {
                     contjg8++;
                 }
                 if (obrg.getCantidadJ() == 8) {
+                    turnojugadores=4;
                     if (darcart == 0) {
                         cartg8 = "";
                         Cartas_conf[] cartas = repart.darcartas(4);
