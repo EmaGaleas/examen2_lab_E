@@ -2425,7 +2425,7 @@ public class tablero extends javax.swing.JFrame {
                             }
                         }
                         
-                        mostrarCuadroDialogoConImagenes(4, cartjg2);
+                        mostrarCuadroDialogoConImagenes(4, cartjg4);
                         //JOptionPane.showMessageDialog(null, cartjg1);
                         return;
                     } else if (ordenarcartas == true) {
