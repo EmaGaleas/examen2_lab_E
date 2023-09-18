@@ -143,9 +143,9 @@ public class tablero extends javax.swing.JFrame {
         if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
             String[] ordenActu = ordenActualCartas.toArray(new String[numcarts + 1]);
             for (int i = 1; i < cartasunidas.length; i++) {
-                System.out.println("ORDENAR ENTROOO");
+                //System.out.println("ORDENAR ENTROOO");
                 cartasunidas[i] = ordenActu[i];
-                System.out.print("ordenActu[i]= " + ordenActu[i]);
+                System.out.print("NORMALLoquetienecartasunidas[i]= " + ordenActu[i]);
             }
 
         }
@@ -217,7 +217,7 @@ public class tablero extends javax.swing.JFrame {
             for (int i = 1; i < cartasunidas.length; i++) {
                 System.out.println("ORDENAR ENTROOO");
                 cartasunidas[i] = ordenActu[i];
-                System.out.print("ordenActu[i]= " + ordenActu[i]);
+                 System.out.print("ORDENARLoquetienecartasunidas[i]= " + ordenActu[i]);
             }
 
         }
@@ -225,31 +225,12 @@ public class tablero extends javax.swing.JFrame {
             if (!cartasunidas[i].equals("")) {
                 cartas[i] = cartasunidas[i];
                 botonescarta[i] = "0";
-                System.out.println(" botonescarta[i]" + botonescarta[i]);
+               // System.out.println("ORDENARbotonescarta[i]" + botonescarta[i]);
             }
         }
 
         System.out.println("ORDENARordenActualCartas" + ordenActualCartas);
-//        JButton reiniciarorden = new JButton("Reordenar");
-//        reiniciarorden.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                for (int i = 0; i < cartasunidas.length && i < numcarts + 1; i++) {
-//                    botonescarta[i] = "0";
-//
-//                }
-//                for (int i = 0; i < posicionesusadas.length; i++) {
-//                    posicionesusadas[i] = 0;
-//                }
-//
-//                reinicio = true;
-//                JOptionPane.showMessageDialog(null, "Reiniciando orden otra vez");
-//                cartamover = "";
-//
-//                posicionusada = 0;
-//            }
-//
-//        });
-//        panel.add(reiniciarorden);
+
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(Box.createRigidArea(new Dimension(20, 0)));
 
@@ -264,7 +245,7 @@ public class tablero extends javax.swing.JFrame {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     //Obtine la información de la carta correspondiente
                     String cartaSeleccionada = (cartaIndex < cartas.length) ? cartas[cartaIndex + 1] : "No hay información disponible";
-                    System.out.println("cartas.lenght " + cartas.length);
+                   // System.out.println("cartas.lenght " + cartas.length);
                     // Mostrar la información de la carta en un cuadro de diálogo
                     //infoCartaDialog.showMessageDialog(null, cartaSeleccionada, "Información de la Carta", JOptionPane.INFORMATION_MESSAGE);
                     cartamover = cartaSeleccionada;
@@ -311,22 +292,17 @@ public class tablero extends javax.swing.JFrame {
                             posicionesusadas[cartaIndex] = posicionusada;
                             posicionusada = 0;
                             cont++;
-                            System.out.print("cont " + cont);
+                            //System.out.print("cont " + cont);
                             String cartaSinGuion = cartamover.replace("-", "");
                             boton2.setIcon(call_png_baraja.obtenerFicha(cartaSinGuion));
                             cartamover = "";
-
+                            System.out.println(" botonescarta[cartaIndex]"+ botonescarta[cartaIndex]);
                             System.out.println("ORDENARordenActualCartas" + ordenActualCartas);
-                            for (String elemento : botonescarta) {
-                                if (elemento.equals("0")) {
-                                    contieneCero = false;
-                                    break; // Salimos del bucle tan pronto como encontramos un cero
-                                }
-                            }
-                            if (contieneCero==false) {
+                           ArrayList<String> botonesordenados = new ArrayList<>(Arrays.asList(botonescarta));
+                           if(!botonesordenados.contains("0")){
                                 nuevoorden = true;
                                 contieneCero=true;
-                                System.out.println("nuevoorden" + nuevoorden);
+                                //System.out.println("nuevoorden" + nuevoorden);
                                 ordenActualCartas = new ArrayList<>(Arrays.asList(botonescarta));
                                 cont = 0;
                                 JOptionPane.showMessageDialog(null, "Ya ha reeordenado todas sus cartas");
@@ -349,7 +325,7 @@ public class tablero extends javax.swing.JFrame {
             });
 
             String carat = botonescarta[cartaIndex];
-            System.out.println("cartamover: " + cartamover);
+            
             // Actualiza el ícono del botón con la nueva carta
 
             // Añade el botón al panel
@@ -384,22 +360,23 @@ public class tablero extends javax.swing.JFrame {
             for (int i = 1; i < cartasunidas.length; i++) {
                 System.out.println("ENTROOO");
                 cartasunidas[i] = ordenActu[i];
-                System.out.print("ordenActu[i]= " + ordenActu[i]);
+                System.out.print("NORMALLoquetienecartasunidas[i]= " + cartasunidas[i]);
             }
 
         }
         for (int i = 0; i < cartasunidas.length; i++) {
             if (i < cartasunidas.length && !cartasunidas[i].equals("")) {
                 cartas[i] = cartasunidas[i];
+                 System.out.print("DESCARTARoquetienecartas[i]= " + cartas[i]);
             }
         }
 
-        if (nuevoorden == true) {
-            for (int i = 1; i < cartasunidas.length; i++) {
-                cartas[i] = botonescarta[i];
-
-            }
-        }
+//        if (nuevoorden == true) {
+//            for (int i = 1; i < cartasunidas.length; i++) {
+//                cartas[i] = botonescarta[i];
+//               System.out.print("DESCARTARoquetienecartas[i]= " + cartas[i]);
+//            }
+//        }
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS)); // Establece el layout vertical
         panel.add(Box.createRigidArea(new Dimension(15, 0)));
@@ -445,7 +422,7 @@ public class tablero extends javax.swing.JFrame {
                         yadescarto = true;
                         JOptionPane.showMessageDialog(null, "Carta descartada");
                         ordenActualCartas = new ArrayList<>(Arrays.asList(cartas));
-                        System.out.println("DESCARTOCARTA" + ordenActualCartas);
+                        System.out.println("ULTIMADESCARTOCARTA" + ordenActualCartas);
 
                     } else {
                         System.out.println("El valor a eliminar no se encuentra en el array.");
@@ -1476,7 +1453,7 @@ public class tablero extends javax.swing.JFrame {
             }
             try {
 
-                System.out.println("" + obrg.getCantidadJ());
+               // System.out.println("" + obrg.getCantidadJ());
 
                 if (obrg.getCantidadJ() == 3) {
 
@@ -1499,7 +1476,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg3" + cartjg3);
+                       // System.out.println("cartjg3" + cartjg3);
                         descartarcartas(6, cartjg3);
                         descartarcarta = false;
                         return;
@@ -1514,7 +1491,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg3" + cartjg3);
+                        //System.out.println("cartjg3" + cartjg3);
                         mostrarCuadroDialogoConImagenes(6, cartjg3);
                         //JOptionPane.showMessageDialog(null, cartjg1);
                         return;
@@ -1554,7 +1531,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                        
                         descartarcartas(7, cartjg3);
                         descartarcarta = false;
                         return;
@@ -1569,7 +1546,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg3" + cartjg3);
+//                        System.out.println("cartjg3" + cartjg3);
                         mostrarCuadroDialogoConImagenes(7, cartjg3);
                         //JOptionPane.showMessageDialog(null, cartjg1);
                         return;
@@ -1608,7 +1585,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                      
                         descartarcartas(5, cartjg3);
                         descartarcarta = false;
                         return;
@@ -1623,9 +1600,9 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg2" + cartjg2);
+                        
                         mostrarCuadroDialogoConImagenes(5, cartjg3);
-                        //JOptionPane.showMessageDialog(null, cartjg1);
+                       
                     } else if (ordenarcartas == true) {
                         if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
                             cartjg3 = "";
@@ -1660,7 +1637,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                        //System.out.println("entro a descartar carta");
                         descartarcartas(4, cartjg3);
                         descartarcarta = false;
                         return;
@@ -1727,7 +1704,7 @@ public class tablero extends javax.swing.JFrame {
             }
             try {
 
-                System.out.println("" + obrg.getCantidadJ());
+//                System.out.println("" + obrg.getCantidadJ());
                 if (obrg.getCantidadJ() == 2) {
                     if (darcart == 0) {
                         cartjg2 = "";
@@ -1747,7 +1724,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                        
                         descartarcartas(7, cartjg2);
                         descartarcarta = false;
                         return;
@@ -1801,7 +1778,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                        
                         descartarcartas(6, cartjg2);
                         descartarcarta = false;
                         return;
@@ -1816,7 +1793,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg2" + cartjg2);
+                        
                         mostrarCuadroDialogoConImagenes(6, cartjg2);
                         //JOptionPane.showMessageDialog(null, cartjg1);
                         return;
@@ -1855,7 +1832,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                        
                         descartarcartas(7, cartjg2);
                         descartarcarta = false;
                         return;
@@ -1898,6 +1875,21 @@ public class tablero extends javax.swing.JFrame {
                         }
                         darcart = 1;
                     }
+                    if (descartarcarta == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg2 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[6]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg2 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        
+                        descartarcartas(5, cartjg2);
+                        descartarcarta = false;
+                        return;
+                    }
                     if (ordenarcartas == false) {
                         if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
                             cartjg2 = "";
@@ -1937,6 +1929,21 @@ public class tablero extends javax.swing.JFrame {
                         }
                         darcart = 1;
                     }
+                    if (descartarcarta == true) {
+                        if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
+                            cartjg2 = "";
+                            String[] ordenActu = ordenActualCartas.toArray(new String[5]);
+
+                            for (int i = 1; i < ordenActu.length; i++) {
+                                cartjg2 += "\n" + ordenActu[i];
+
+                            }
+                        }
+                        
+                        descartarcartas(4, cartjg2);
+                        descartarcarta = false;
+                        return;
+                    }
                     if (ordenarcartas == false) {
                         if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
                             cartjg2 = "";
@@ -1947,9 +1954,9 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg2" + cartjg2);
-                        mostrarCuadroDialogoConImagenes(7, cartjg2);
-                        //JOptionPane.showMessageDialog(null, cartjg1);
+                        
+                        mostrarCuadroDialogoConImagenes(4, cartjg2);
+                 
                         return;
                     } else if (ordenarcartas == true) {
                         if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
@@ -2007,7 +2014,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                        
                         descartarcartas(7, cartjg1);
                         descartarcarta = false;
                         return;
@@ -2022,7 +2029,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.print("cartjg1" + cartjg1);
+                        
                         mostrarCuadroDialogoConImagenes(7, cartjg1);
                         //JOptionPane.showMessageDialog(null, cartjg1);
                         return;
@@ -2062,7 +2069,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg1" + cartjg1);
+                        
                         descartarcartas(6, cartjg1);
                         descartarcarta = false;
                         return;
@@ -2077,8 +2084,9 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.print("cartjg1" + cartjg1);
+                        
                         mostrarCuadroDialogoConImagenes(6, cartjg1);
+                        return;
                         //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
                         if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
@@ -2092,6 +2100,7 @@ public class tablero extends javax.swing.JFrame {
 
                         ordenarcartas(6, cartjg1);
                         ordenarcartas = false;
+                        return;
                     }
 
                 }
@@ -2115,7 +2124,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                        
                         descartarcartas(7, cartjg1);
                         descartarcarta = false;
                         return;
@@ -2130,9 +2139,8 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.print("cartjg1" + cartjg1);
+                      
                         mostrarCuadroDialogoConImagenes(7, cartjg1);
-                        JOptionPane.showMessageDialog(null, cartjg1);
                         return;
                     } else if (ordenarcartas == true) {
                         if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
@@ -2169,7 +2177,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                       
                         descartarcartas(5, cartjg1);
                         descartarcarta = false;
                         return;
@@ -2184,9 +2192,10 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.print("cartjg1" + cartjg1);
+                       
                         mostrarCuadroDialogoConImagenes(5, cartjg1);
-                        JOptionPane.showMessageDialog(null, cartjg1);
+                        return;
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
                         if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
                             cartjg1 = "";
@@ -2199,6 +2208,7 @@ public class tablero extends javax.swing.JFrame {
 
                         ordenarcartas(5, cartjg1);
                         ordenarcartas = false;
+                        return;
                     }
 
                 }
@@ -2221,7 +2231,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+            
                         descartarcartas(4, cartjg1);
                         descartarcarta = false;
                         return;
@@ -2236,7 +2246,6 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.print("cartjg1" + cartjg1);
                         mostrarCuadroDialogoConImagenes(4, cartjg1);
                         JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
@@ -2251,6 +2260,7 @@ public class tablero extends javax.swing.JFrame {
 
                         ordenarcartas(4, cartjg1);
                         ordenarcartas = false;
+                        return;
                     }
                 }
             } catch (IOException e) {
@@ -2291,7 +2301,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                       
                         descartarcartas(7, cartjg4);
                         descartarcarta = false;
                         return;
@@ -2306,7 +2316,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg4" + cartjg4);
+                        
                         mostrarCuadroDialogoConImagenes(7, cartjg4);
                         //JOptionPane.showMessageDialog(null, cartjg1);
                         return;
@@ -2345,7 +2355,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                        
                         descartarcartas(5, cartjg4);
                         descartarcarta = false;
                         return;
@@ -2360,7 +2370,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg4" + cartjg4);
+                       
                         mostrarCuadroDialogoConImagenes(5, cartjg4);
                         //JOptionPane.showMessageDialog(null, cartjg1);
                         return;
@@ -2399,7 +2409,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                        
                         descartarcartas(4, cartjg4);
                         descartarcarta = false;
                         return;
@@ -2414,7 +2424,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg4" + cartjg4);
+                        
                         mostrarCuadroDialogoConImagenes(4, cartjg2);
                         //JOptionPane.showMessageDialog(null, cartjg1);
                         return;
@@ -2472,7 +2482,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                        
                         descartarcartas(5, cartg5);
                         descartarcarta = false;
                         return;
@@ -2487,7 +2497,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg3" + cartjg3);
+                        
                         mostrarCuadroDialogoConImagenes(5, cartg5);
                         //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
@@ -2523,7 +2533,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                        
                         descartarcartas(4, cartg5);
                         descartarcarta = false;
                         return;
@@ -2593,7 +2603,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                       
                         descartarcartas(5, cartg6);
                         descartarcarta = false;
                         return;
@@ -2644,7 +2654,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                       
                         descartarcartas(4, cartg5);
                         descartarcarta = false;
                         return;
@@ -2716,7 +2726,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                        
                         descartarcartas(4, cartg7);
                         descartarcarta = false;
                         return;
@@ -2787,7 +2797,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("entro a descartar carta");
+                        
                         descartarcartas(4, cartg8);
                         descartarcarta = false;
                         return;
