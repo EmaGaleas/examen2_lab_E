@@ -384,7 +384,7 @@ public class logica_tab {
         matrizBotones[9][9].setPosesion("NO APLICA");
         if(elegida.equals("a")){
             JOptionPane.showMessageDialog(null, "NO HAS ELEGIDO UNA CARTA", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
-        }else if(elegida.equals("CORAZON13") || elegida.equals("PICA13") && !carta.getTipo().equals("ESQUINA") ){
+        }else if((elegida.equals("CORAZON13") || elegida.equals("PICA13") )&& !carta.getTipo().equals("ESQUINA") ){
             if(posesion.equals("EQUIPO 1")){
                 if(carta.getPosesion().equals("EQUIPO 2") || carta.getPosesion().equals("EQUIPO 3") ){
                     carta.setPosesion("NADIE");
@@ -445,6 +445,67 @@ public class logica_tab {
                 }
             }
             
+        }else if((elegida.equals("DIAMANTE14") || elegida.equals("TREBOL14")) && !carta.getTipo().equals("ESQUINA") && carta.getPosesion().equals("NADIE") ){
+            boolean b=false;
+            if(posesion.equals("EQUIPO 1")){
+                if(carta.getPosesion().equals("EQUIPO 2") || carta.getPosesion().equals("EQUIPO 3") ){
+                    carta.setPosesion("NADIE");
+                    button.setIcon(null);
+                    cambioValido = true;
+                   
+                 //   elegida = "a";
+                 //
+                    secuenciaHorizontalBloqueo(fila,  columa,tipo,button);
+                    secuenciaVerticalBloqueo( fila, columa,tipo,button);
+                    secuenciaDiagonalDerechaIzquierdaBloqueo(fila,  columa, tipo, button);
+                    secuenciaDiagonalIzquierdaDerechaBloqueo(fila,  columa, tipo, button);
+                    if(bloqueo){
+                        cambioValido = true;
+                        bloqueo=false;
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Bloqueo no valido", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
+                    }
+                   //     elegida = "a";
+                }
+            }else if(posesion.equals("EQUIPO 3")){
+                if(carta.getPosesion().equals("EQUIPO 1") || carta.getPosesion().equals("EQUIPO 2") ){
+                    carta.setPosesion("NADIE");
+                    button.setIcon(null);
+                    cambioValido = true;
+               //     elegida = "a";
+                }else if(carta.getPosesion().equals("NADIE") ){
+                    secuenciaHorizontalBloqueo(fila,  columa,tipo,button);
+                    secuenciaVerticalBloqueo( fila, columa,tipo,button);
+                    secuenciaDiagonalDerechaIzquierdaBloqueo(fila,  columa, tipo, button);
+                    secuenciaDiagonalIzquierdaDerechaBloqueo(fila,  columa, tipo, button);
+                    if(bloqueo){
+                        cambioValido = true;
+                        bloqueo=false;
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Bloqueo no valido", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
+                    }
+               //     elegida = "a";
+                }
+            }else if(posesion.equals("EQUIPO 2")){
+                if(carta.getPosesion().equals("EQUIPO 1") || carta.getPosesion().equals("EQUIPO 3") ){
+                    carta.setPosesion("NADIE");
+                    button.setIcon(null);
+                    cambioValido = true;
+                      //  elegida = "a";
+                }else if(carta.getPosesion().equals("NADIE") ){
+                    secuenciaHorizontalBloqueo(fila,  columa,tipo,button);
+                    secuenciaVerticalBloqueo( fila, columa,tipo,button);
+                    secuenciaDiagonalDerechaIzquierdaBloqueo(fila,  columa, tipo, button);
+                    secuenciaDiagonalIzquierdaDerechaBloqueo(fila,  columa, tipo, button);
+                    if(bloqueo){
+                        cambioValido = true;
+                        bloqueo=false;
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Bloqueo no valido", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
+                    }
+               //      elegida = "a";
+                }
+            }
         }else if(carta.getPosesion().equals("NADIE") && !carta.getTipo().equals("ESQUINA")  && elegida.equals(carta.getTipo())) {//&& elegida.equals(carta.getTipo()
             button.setIcon(call_png_fichas.obtenerFicha(fichaActual));
             carta.setPosesion(posesion);
