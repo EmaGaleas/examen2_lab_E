@@ -48,6 +48,7 @@ public class tablero extends javax.swing.JFrame {
     int cont = 0, entroya = 0;
     private List<String> ordenActualCartas;
     private List<String> nuevomazo;
+    String ult1="",ult2="",ult3="",ult4="",ult5="",ult6="",ult7="",ult8="";
 
     public tablero(String nombre) {
         initComponents();
@@ -91,8 +92,24 @@ public class tablero extends javax.swing.JFrame {
                     System.out.println("lt.elegida"+lt.elegida);
                     nuevomazo.add(lt.elegida);
                     System.out.println("nuevomazo" + nuevomazo);
-                   
-                     
+                    if(lt.turno==1){
+                        ult1=lt.elegida;
+                    }else if(lt.turno==2){
+                        ult2=lt.elegida;
+                    }else if(lt.turno==3){
+                        ult3=lt.elegida;
+                    }else if(lt.turno==4){
+                        ult4=lt.elegida;
+                    }else if(lt.turno==5){
+                        ult5=lt.elegida;
+                    }else if(lt.turno==6){
+                        ult6=lt.elegida;
+                    }else if(lt.turno==7){
+                        ult7=lt.elegida;
+                    }else if(lt.turno==8){
+                        ult8=lt.elegida;
+                    }
+                    
                     lt.elegida = "a";
                     tij.stop();
                     tij.start();
