@@ -283,8 +283,8 @@ public class tablero extends javax.swing.JFrame {
                         cartas[indiceAEliminar] = repart.siguienteCarta().getTipo() + repart.siguienteCarta().getValor();
                         System.out.println("nueva carta" + cartas[indiceAEliminar]);
                         indiceAEliminar = 0;
-                        yadescarto = true;
-                        JOptionPane.showMessageDialog(null, "Carta descartada");
+                        
+                        //JOptionPane.showMessageDialog(null, "Carta descartada");
                         ordenActualCartas = new ArrayList<>(Arrays.asList(cartas));
                         System.out.println("ULTIMADESCARTOCARTA" + ordenActualCartas);
 
@@ -529,7 +529,7 @@ public class tablero extends javax.swing.JFrame {
                     }
                     String cartaSeleccionada = (cartaIndex < cartas.length) ? cartas[cartaIndex + 1] : "No hay información disponible";
                     cartadescartar = cartaSeleccionada;
-                    JOptionPane.showMessageDialog(null, "carta descartar:" + cartaSeleccionada);
+                  //  JOptionPane.showMessageDialog(null, "carta descartar:" + cartaSeleccionada);
 //                    for (int i = 1; i < cartas.length; i++) {
 //                        
 //                        System.out.print("sinremplazar: "+cartas[i]);
@@ -551,7 +551,7 @@ public class tablero extends javax.swing.JFrame {
                         boton.setIcon(call_png_baraja.obtenerFicha(cartas[indiceAEliminar]));
                         indiceAEliminar = 0;
                         yadescarto = true;
-                        JOptionPane.showMessageDialog(null, "Carta descartada");
+                       // JOptionPane.showMessageDialog(null, "Carta descartada");
                         ordenActualCartas = new ArrayList<>(Arrays.asList(cartas));
                         System.out.println("ULTIMADESCARTOCARTA" + ordenActualCartas);
 
@@ -1850,7 +1850,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg2" + cartjg2);
+                        //System.out.println("cartjg2" + cartjg2);
                         mostrarCuadroDialogoConImagenes(7, cartjg2);
                         //JOptionPane.showMessageDialog(null, cartjg1);
                         return;
@@ -1960,7 +1960,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg2" + cartjg2);
+                        //System.out.println("cartjg2" + cartjg2);
                         mostrarCuadroDialogoConImagenes(7, cartjg2);
                         //JOptionPane.showMessageDialog(null, cartjg2);
                     } else if (ordenarcartas == true) {
@@ -2014,7 +2014,7 @@ public class tablero extends javax.swing.JFrame {
 
                             }
                         }
-                        System.out.println("cartjg2" + cartjg2);
+                        //System.out.println("cartjg2" + cartjg2);
                         mostrarCuadroDialogoConImagenes(5, cartjg2);
                         //JOptionPane.showMessageDialog(null, cartjg1);
                         return;
@@ -2362,7 +2362,7 @@ public class tablero extends javax.swing.JFrame {
                             }
                         }
                         mostrarCuadroDialogoConImagenes(4, cartjg1);
-                        JOptionPane.showMessageDialog(null, cartjg1);
+                        //JOptionPane.showMessageDialog(null, cartjg1);
                     } else if (ordenarcartas == true) {
                         if (!ordenActualCartas.isEmpty() && !ordenActualCartas.contains("0")) {
                             cartjg1 = "";

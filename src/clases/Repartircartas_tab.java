@@ -16,8 +16,6 @@ public class Repartircartas_tab {
     tablero obj;
     List<String> nuevomazo;
     
-    
-    
     public Repartircartas_tab() {
         
         this.carta = new Cartas_conf[numcarts];
