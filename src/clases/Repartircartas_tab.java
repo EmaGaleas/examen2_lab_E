@@ -119,6 +119,7 @@ public class Repartircartas_tab {
         Cartas_conf cartas = null;
         if (posionsigcart == numcarts) {
             System.out.println("ya no hay mas cartas barajear otra vez");
+            
             return null;
         } else {
             cartas = this.carta[posionsigcart++];
@@ -164,6 +165,7 @@ public class Repartircartas_tab {
     public void cartasmonton() {
 
         if (cartasDisponible() == numcarts) {
+
             System.out.println("no se ha sacado ni una carta");
         } else {
             for (int i = 0; i < posionsigcart; i++) {
