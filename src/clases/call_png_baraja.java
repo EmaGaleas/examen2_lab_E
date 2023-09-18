@@ -36,6 +36,7 @@ public class call_png_baraja {
          carta.put("DIAMANTE10",          new ImageIcon("src/images/diamante/10_diamante.png"));
          carta.put("DIAMANTE11",          new ImageIcon("src/images/diamante/q_diamante.png"));
          carta.put("DIAMANTE12",          new ImageIcon("src/images/diamante/k_diamante.png"));
+         carta.put("DIAMANTE13",          new ImageIcon("src/images/diamante/j_diamante.png"));
          carta.put("DIAMANTE14",          new ImageIcon("src/images/diamante/j_diamante.png"));
          //pendiente de instanciar pica
          carta.put("PICA1",               new ImageIcon("src/images/pica/as_pica.png"));
@@ -64,6 +65,7 @@ public class call_png_baraja {
          carta.put("TREBOL10",            new ImageIcon("src/images/trebol/10_trebol.png"));
          carta.put("TREBOL11",            new ImageIcon("src/images/trebol/q_trebol.png"));
          carta.put("TREBOL12",            new ImageIcon("src/images/trebol/k_trebol.png"));
+         carta.put("TREBOL13",            new ImageIcon("src/images/trebol/k_trebol.png"));
          carta.put("TREBOL14",            new ImageIcon("src/images/trebol/j_trebol.png"));
     }
     public static ImageIcon obtenerFicha(String tipoCarta) {

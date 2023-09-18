@@ -69,7 +69,7 @@ public class Repartircartas_tab {
         int posicionaleatoria = 0, numrandom;
         Cartas_conf cart;
         for (int i = 0; i < carta.length; i++) {
-            if (carta[i].getValor() == 13 && carta[i].getTipo().equals("DIAMANTE") || carta[i].getValor() == 13 && carta[i].getTipo().equals("TREBOL")) {
+            if ((carta[i].getValor() == 13 && carta[i].getTipo().equals("DIAMANTE")) || (carta[i].getValor() == 13 && carta[i].getTipo().equals("TREBOL"))) {
 
                 carta[i].setValor(14);
 
