@@ -69,26 +69,6 @@ public class tablero extends javax.swing.JFrame {
                 segundos++;
                 actLabelTIME();
                 if (segundos >= 120) {
-                    if (turnojugadores== 1) {
-                        ult1 = lt.elegida;
-                        System.out.println("ult1"+ult1);
-                    } else if (turnojugadores == 2) {
-                        ult2 = lt.elegida;
-                        System.out.println("ult2"+ult2);
-                    } else if (turnojugadores == 3) {
-                        ult3 = lt.elegida;
-                    } else if (turnojugadores== 4) {
-                        ult4 = lt.elegida;
-                    } else if (turnojugadores== 5) {
-                        ult5 = lt.elegida;
-                    } else if (turnojugadores == 6) {
-                        ult6 = lt.elegida;
-                    } else if (turnojugadores == 7) {
-                        ult7 = lt.elegida;
-                    } else if (turnojugadores == 8) {
-                        ult8 = lt.elegida;
-                    }
-
                     lt.elegida = "a";
                     nuevoorden = false;
                     ordenActualCartas.clear();
@@ -217,7 +197,7 @@ public class tablero extends javax.swing.JFrame {
     }
 
     private void mostrarCuadroDialogoConImagenes(int numcarts, String infocartas) {
-
+       
         JPanel panel = new JPanel();
         String[] cartasunidas = infocartas.split("\n");
         // cartasunidas = ordenActualCartas.toArray(new String[0]);
@@ -330,9 +310,11 @@ public class tablero extends javax.swing.JFrame {
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
 
+
     }
 
     private void ordenarcartas(int numcarts, String infocartas) {
+        
         nuevoorden = false;
         System.out.println("ORDENARordenActualCartas" + ordenActualCartas);
         botonescarta = new String[numcarts + 1];
