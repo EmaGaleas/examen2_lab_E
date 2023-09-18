@@ -65,7 +65,6 @@ public class tablero extends javax.swing.JFrame {
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                lt.elegida = "a";
                 segundos++;
                 actLabelTIME();
                 if (segundos >= 120) {
