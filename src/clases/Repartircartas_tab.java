@@ -177,8 +177,8 @@ public class Repartircartas_tab {
 
     public void mostrarbaraja() {
         if (cartasDisponible() == 0) {
-            System.out.println("ya no quedan mas cartas");
-            yanohaycart=true;
+        System.out.println("ya no quedan mas cartas");
+        reiniciarMazo();
             
         } else {
             for (int i = posionsigcart; i < carta.length; i++) {
@@ -186,6 +186,11 @@ public class Repartircartas_tab {
             }
         }
 
+    }
+    public void reiniciarMazo() {
+    posionsigcart = 0;
+    yanohaycart = false;
+    barajar();
     }
 
     public static int generaNumeroEnteroAleatorio(int minimo, int maximo) {
