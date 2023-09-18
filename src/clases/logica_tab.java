@@ -384,7 +384,7 @@ public class logica_tab {
         matrizBotones[9][9].setPosesion("NO APLICA");
         if(elegida.equals("a")){
             JOptionPane.showMessageDialog(null, "NO HAS ELEGIDO UNA CARTA", "Informacion de Carta", JOptionPane.WARNING_MESSAGE);
-        }else if(elegida.equals("CORAZON13") || elegida.equals("PICA13")){
+        }else if(elegida.equals("CORAZON13") || elegida.equals("PICA13") && !carta.getTipo().equals("ESQUINA") ){
             if(posesion.equals("EQUIPO 1")){
                 if(carta.getPosesion().equals("EQUIPO 2") || carta.getPosesion().equals("EQUIPO 3") ){
                     carta.setPosesion("NADIE");
@@ -392,7 +392,7 @@ public class logica_tab {
                     cambioValido = true;
                    
                  //   elegida = "a";
-                }else{
+                }else if(carta.getPosesion().equals("NADIE") ){
                     secuenciaHorizontalBloqueo(fila,  columa,tipo,button);
                     secuenciaVerticalBloqueo( fila, columa,tipo,button);
                     secuenciaDiagonalDerechaIzquierdaBloqueo(fila,  columa, tipo, button);
@@ -411,7 +411,7 @@ public class logica_tab {
                     button.setIcon(null);
                     cambioValido = true;
                //     elegida = "a";
-                }else{
+                }else if(carta.getPosesion().equals("NADIE") ){
                     secuenciaHorizontalBloqueo(fila,  columa,tipo,button);
                     secuenciaVerticalBloqueo( fila, columa,tipo,button);
                     secuenciaDiagonalDerechaIzquierdaBloqueo(fila,  columa, tipo, button);
@@ -429,8 +429,8 @@ public class logica_tab {
                     carta.setPosesion("NADIE");
                     button.setIcon(null);
                     cambioValido = true;
-                        elegida = "a";
-                }else{
+                      //  elegida = "a";
+                }else if(carta.getPosesion().equals("NADIE") ){
                     secuenciaHorizontalBloqueo(fila,  columa,tipo,button);
                     secuenciaVerticalBloqueo( fila, columa,tipo,button);
                     secuenciaDiagonalDerechaIzquierdaBloqueo(fila,  columa, tipo, button);
